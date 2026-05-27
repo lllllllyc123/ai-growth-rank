@@ -1,8 +1,11 @@
-﻿name: Update Data
+name: Update Data
 on:
   schedule:
     - cron: "0 0 * * 1"   # 每周一 08:00 CST
   workflow_dispatch:        # 手动触发
+
+permissions:
+  contents: write
 
 jobs:
   scrape:

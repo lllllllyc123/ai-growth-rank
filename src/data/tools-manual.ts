@@ -1,0 +1,530 @@
+// 人工维护字段 - 评分、描述、分类、标签、访问量、增长率
+// 客观指标（githubStars）由 auto-data.json 构建时覆盖
+import type { AITool } from "./types";
+import { type Category } from "./types";
+
+export const manualEntries: AITool[] = [
+  {
+    "slug": "chatgpt",
+    "name": "ChatGPT",
+    "url": "https://chat.openai.com",
+    "description": "OpenAI开发的多模态大语言模型对话平台，支持文本、图像、代码生成与分析。",
+    "category": "ai-chat",
+    "monthlyVisits": 4200000000,
+    "visitGrowth": 8.5,
+    "userRating": 4.8,
+    "pricing": "freemium",
+    "foundedAt": "2022-11-30",
+    "country": "美国",
+    "growthScore": 88,
+    "feedbackScore": 96,
+    "innovationScore": 92,
+    "totalScore": 91.6,
+    "trend": "up",
+    "rankChange": 0,
+    "tags": [
+      "LLM",
+      "多模态",
+      "GPT-4o",
+      "插件生态"
+    ]
+  },
+  {
+    "slug": "claude",
+    "name": "Claude",
+    "url": "https://claude.ai",
+    "description": "Anthropic推出的AI助手，擅长长文本处理与深度推理，支持代码解释与多轮对话。",
+    "category": "ai-chat",
+    "monthlyVisits": 680000000,
+    "visitGrowth": 22.3,
+    "userRating": 4.7,
+    "pricing": "freemium",
+    "foundedAt": "2023-03-14",
+    "country": "美国",
+    "growthScore": 95,
+    "feedbackScore": 94,
+    "innovationScore": 90,
+    "totalScore": 93.4,
+    "trend": "up",
+    "rankChange": 2,
+    "tags": [
+      "长文本",
+      "安全对齐",
+      "推理",
+      "Artifacts"
+    ]
+  },
+  {
+    "slug": "gemini",
+    "name": "Gemini",
+    "url": "https://gemini.google.com",
+    "description": "Google推出的多模态AI模型，原生支持文本、图像、音频、视频、代码的理解与生成。",
+    "category": "ai-chat",
+    "monthlyVisits": 510000000,
+    "visitGrowth": 15.1,
+    "userRating": 4.5,
+    "pricing": "freemium",
+    "foundedAt": "2023-12-06",
+    "country": "美国",
+    "growthScore": 90,
+    "feedbackScore": 88,
+    "innovationScore": 89,
+    "totalScore": 89.1,
+    "trend": "up",
+    "rankChange": 1,
+    "tags": [
+      "多模态",
+      "Google生态",
+      "超长上下文"
+    ]
+  },
+  {
+    "slug": "midjourney",
+    "name": "Midjourney",
+    "url": "https://www.midjourney.com",
+    "description": "顶级AI图像生成工具，以艺术风格独特、细节丰富著称，V6版本真实感和创意达新高度。",
+    "category": "ai-image",
+    "monthlyVisits": 95000000,
+    "visitGrowth": -3.2,
+    "userRating": 4.7,
+    "pricing": "paid",
+    "foundedAt": "2022-07-12",
+    "country": "美国",
+    "growthScore": 68,
+    "feedbackScore": 95,
+    "innovationScore": 88,
+    "totalScore": 81.1,
+    "trend": "down",
+    "rankChange": -1,
+    "tags": [
+      "图像生成",
+      "艺术风格",
+      "Discord"
+    ]
+  },
+  {
+    "slug": "cursor",
+    "name": "Cursor",
+    "url": "https://cursor.sh",
+    "description": "基于VS Code的AI原生代码编辑器，支持整项目上下文理解与多文件编辑，程序员效率神器。",
+    "category": "ai-code",
+    "monthlyVisits": 85000000,
+    "visitGrowth": 35.8,
+    "userRating": 4.9,
+    "pricing": "freemium",
+    "foundedAt": "2023-06-15",
+    "country": "美国",
+    "growthScore": 98,
+    "feedbackScore": 97,
+    "innovationScore": 94,
+    "totalScore": 96.5,
+    "trend": "up",
+    "rankChange": 5,
+    "tags": [
+      "代码编辑器",
+      "AI编程",
+      "VS Code",
+      "Agent"
+    ]
+  },
+  {
+    "slug": "github-copilot",
+    "name": "GitHub Copilot",
+    "url": "https://github.com/features/copilot",
+    "description": "GitHub推出的AI编程助手，支持代码补全、Chat对话、代码审查与Agent模式。",
+    "category": "ai-code",
+    "monthlyVisits": 120000000,
+    "visitGrowth": 18.6,
+    "userRating": 4.6,
+    "pricing": "paid",
+    "foundedAt": "2022-06-21",
+    "country": "美国",
+    "growthScore": 85,
+    "feedbackScore": 92,
+    "innovationScore": 86,
+    "totalScore": 87.4,
+    "trend": "up",
+    "rankChange": 1,
+    "tags": [
+      "代码补全",
+      "IDE集成",
+      "Agent模式",
+      "PR审查"
+    ]
+  },
+  {
+    "slug": "perplexity",
+    "name": "Perplexity AI",
+    "url": "https://www.perplexity.ai",
+    "description": "AI驱动的新一代搜索引擎，实时联网检索并生成带引用来源的答案，支持深度研究模式。",
+    "category": "ai-search",
+    "monthlyVisits": 110000000,
+    "visitGrowth": 28.4,
+    "userRating": 4.6,
+    "pricing": "freemium",
+    "foundedAt": "2022-12-01",
+    "country": "美国",
+    "growthScore": 93,
+    "feedbackScore": 91,
+    "innovationScore": 88,
+    "totalScore": 90.9,
+    "trend": "up",
+    "rankChange": 3,
+    "tags": [
+      "AI搜索",
+      "实时检索",
+      "引用来源",
+      "深度研究"
+    ]
+  },
+  {
+    "slug": "runway",
+    "name": "Runway",
+    "url": "https://runwayml.com",
+    "description": "AI视频生成与编辑平台，Gen-3模型在文生视频、图生视频上质量领先。",
+    "category": "ai-video",
+    "monthlyVisits": 42000000,
+    "visitGrowth": 42.1,
+    "userRating": 4.5,
+    "pricing": "paid",
+    "foundedAt": "2023-02-06",
+    "country": "美国",
+    "growthScore": 97,
+    "feedbackScore": 86,
+    "innovationScore": 93,
+    "totalScore": 92.3,
+    "trend": "up",
+    "rankChange": 8,
+    "tags": [
+      "视频生成",
+      "Gen-3",
+      "视频编辑",
+      "创意工具"
+    ]
+  },
+  {
+    "slug": "sora",
+    "name": "Sora",
+    "url": "https://sora.com",
+    "description": "OpenAI推出的AI视频生成模型，从文本直接生成高保真视频，支持复杂场景与精准物理模拟。",
+    "category": "ai-video",
+    "monthlyVisits": 28000000,
+    "visitGrowth": 120.5,
+    "userRating": 4.4,
+    "pricing": "paid",
+    "foundedAt": "2024-02-15",
+    "country": "美国",
+    "growthScore": 99,
+    "feedbackScore": 84,
+    "innovationScore": 96,
+    "totalScore": 93.2,
+    "trend": "up",
+    "rankChange": 12,
+    "tags": [
+      "文生视频",
+      "OpenAI",
+      "物理模拟",
+      "高保真"
+    ]
+  },
+  {
+    "slug": "suno",
+    "name": "Suno",
+    "url": "https://suno.ai",
+    "description": "AI音乐生成平台，输入歌词和风格即可生成完整歌曲，V4版本音质和可控性大幅提升。",
+    "category": "ai-audio",
+    "monthlyVisits": 32000000,
+    "visitGrowth": 55.2,
+    "userRating": 4.5,
+    "pricing": "freemium",
+    "foundedAt": "2023-09-01",
+    "country": "美国",
+    "growthScore": 96,
+    "feedbackScore": 87,
+    "innovationScore": 95,
+    "totalScore": 92.8,
+    "trend": "up",
+    "rankChange": 6,
+    "tags": [
+      "音乐生成",
+      "AI作曲",
+      "歌词生成",
+      "V4"
+    ]
+  },
+  {
+    "slug": "notion-ai",
+    "name": "Notion AI",
+    "url": "https://www.notion.so/product/ai",
+    "description": "集成在Notion工作空间中的AI助手，支持文档写作、摘要、翻译、数据库分析与自动化。",
+    "category": "ai-writing",
+    "monthlyVisits": 280000000,
+    "visitGrowth": 10.2,
+    "userRating": 4.3,
+    "pricing": "paid",
+    "foundedAt": "2023-02-22",
+    "country": "美国",
+    "growthScore": 78,
+    "feedbackScore": 85,
+    "innovationScore": 80,
+    "totalScore": 80.7,
+    "trend": "stable",
+    "rankChange": 0,
+    "tags": [
+      "文档写作",
+      "知识管理",
+      "企业协作",
+      "自动化"
+    ]
+  },
+  {
+    "slug": "lovable",
+    "name": "Lovable",
+    "url": "https://lovable.dev",
+    "description": "AI全栈应用生成平台，自然语言描述即可生成完整Web应用前端代码，支持实时预览与一键部署。",
+    "category": "ai-code",
+    "monthlyVisits": 18000000,
+    "visitGrowth": 85.3,
+    "userRating": 4.6,
+    "pricing": "freemium",
+    "foundedAt": "2024-03-01",
+    "country": "瑞典",
+    "growthScore": 98,
+    "feedbackScore": 90,
+    "innovationScore": 93,
+    "totalScore": 94.1,
+    "trend": "up",
+    "rankChange": 15,
+    "tags": [
+      "全栈生成",
+      "Web应用",
+      "快速原型",
+      "无代码"
+    ]
+  },
+  {
+    "slug": "bolt-new",
+    "name": "Bolt.new",
+    "url": "https://bolt.new",
+    "description": "StackBlitz推出的AI全栈Web应用在线生成器，浏览器中直接创建、编辑和部署完整项目。",
+    "category": "ai-code",
+    "monthlyVisits": 22000000,
+    "visitGrowth": 68.7,
+    "userRating": 4.7,
+    "pricing": "freemium",
+    "foundedAt": "2024-06-10",
+    "country": "美国",
+    "growthScore": 97,
+    "feedbackScore": 93,
+    "innovationScore": 95,
+    "totalScore": 95.2,
+    "trend": "up",
+    "rankChange": 11,
+    "tags": [
+      "全栈生成",
+      "浏览器IDE",
+      "快速部署",
+      "原型验证"
+    ]
+  },
+  {
+    "slug": "deepseek",
+    "name": "DeepSeek",
+    "url": "https://chat.deepseek.com",
+    "description": "中国深度求索开发的领先开源大模型，V3/R1系列在数学推理、代码生成上表现卓越。",
+    "category": "ai-chat",
+    "monthlyVisits": 350000000,
+    "visitGrowth": 95.4,
+    "userRating": 4.8,
+    "githubStars": 0,
+    "githubRepo": "deepseek-ai/DeepSeek-V3",
+    "pricing": "free",
+    "foundedAt": "2023-07-17",
+    "country": "中国",
+    "growthScore": 99,
+    "feedbackScore": 95,
+    "innovationScore": 97,
+    "totalScore": 97.2,
+    "trend": "up",
+    "rankChange": 20,
+    "tags": [
+      "开源",
+      "推理",
+      "MoE",
+      "高性价比"
+    ]
+  },
+  {
+    "slug": "kimi",
+    "name": "Kimi",
+    "url": "https://kimi.moonshot.cn",
+    "description": "月之暗面推出的长文本AI助手，支持200万字超长上下文，中文长文本处理领域领先。",
+    "category": "ai-chat",
+    "monthlyVisits": 28000000,
+    "visitGrowth": 25.6,
+    "userRating": 4.5,
+    "pricing": "freemium",
+    "foundedAt": "2023-10-09",
+    "country": "中国",
+    "growthScore": 86,
+    "feedbackScore": 88,
+    "innovationScore": 85,
+    "totalScore": 86.3,
+    "trend": "up",
+    "rankChange": 2,
+    "tags": [
+      "长文本",
+      "超长上下文",
+      "文档分析",
+      "中文优化"
+    ]
+  },
+  {
+    "slug": "gamma",
+    "name": "Gamma",
+    "url": "https://gamma.app",
+    "description": "AI驱动的演示文稿与文档生成平台，输入主题一键生成精美PPT、网页和文档。",
+    "category": "ai-writing",
+    "monthlyVisits": 35000000,
+    "visitGrowth": 32.1,
+    "userRating": 4.6,
+    "pricing": "freemium",
+    "foundedAt": "2023-01-15",
+    "country": "美国",
+    "growthScore": 91,
+    "feedbackScore": 91,
+    "innovationScore": 87,
+    "totalScore": 89.8,
+    "trend": "up",
+    "rankChange": 4,
+    "tags": [
+      "PPT生成",
+      "演示文稿",
+      "文档",
+      "模板"
+    ]
+  },
+  {
+    "slug": "elevenlabs",
+    "name": "ElevenLabs",
+    "url": "https://elevenlabs.io",
+    "description": "顶级AI语音合成与克隆平台，支持29种语言TTS与声音克隆，语音自然度行业领先。",
+    "category": "ai-audio",
+    "monthlyVisits": 45000000,
+    "visitGrowth": 20.3,
+    "userRating": 4.7,
+    "pricing": "freemium",
+    "foundedAt": "2023-01-23",
+    "country": "英国",
+    "growthScore": 84,
+    "feedbackScore": 94,
+    "innovationScore": 89,
+    "totalScore": 88.4,
+    "trend": "up",
+    "rankChange": 3,
+    "tags": [
+      "语音合成",
+      "声音克隆",
+      "TTS",
+      "多语言"
+    ]
+  },
+  {
+    "slug": "vercel-v0",
+    "name": "v0 by Vercel",
+    "url": "https://v0.dev",
+    "description": "Vercel推出的AI前端界面生成工具，自然语言描述直接生成React/Tailwind组件代码。",
+    "category": "ai-code",
+    "monthlyVisits": 15000000,
+    "visitGrowth": 45.2,
+    "userRating": 4.5,
+    "pricing": "freemium",
+    "foundedAt": "2024-01-10",
+    "country": "美国",
+    "growthScore": 94,
+    "feedbackScore": 89,
+    "innovationScore": 91,
+    "totalScore": 91.4,
+    "trend": "up",
+    "rankChange": 7,
+    "tags": [
+      "UI生成",
+      "React",
+      "Tailwind",
+      "前端开发"
+    ]
+  },
+  {
+    "slug": "dify",
+    "name": "Dify",
+    "url": "https://dify.ai",
+    "description": "开源LLMOps平台，提供AI应用可视化编排、RAG管道和Agent框架，支持私有化部署。",
+    "category": "ai-agent",
+    "monthlyVisits": 12000000,
+    "visitGrowth": 58.9,
+    "userRating": 4.6,
+    "githubStars": 0,
+    "githubRepo": "langgenius/dify",
+    "pricing": "open-source",
+    "foundedAt": "2023-05-01",
+    "country": "中国",
+    "growthScore": 93,
+    "feedbackScore": 91,
+    "innovationScore": 90,
+    "totalScore": 91.3,
+    "trend": "up",
+    "rankChange": 9,
+    "tags": [
+      "LLMOps",
+      "开源",
+      "RAG",
+      "Agent",
+      "可视化"
+    ]
+  },
+  {
+    "slug": "coze",
+    "name": "Coze（扣子）",
+    "url": "https://www.coze.com",
+    "description": "字节跳动推出的AI Bot开发平台，零代码创建AI助手并发布到抖音、微信等多渠道。",
+    "category": "ai-agent",
+    "monthlyVisits": 10000000,
+    "visitGrowth": 72.3,
+    "userRating": 4.4,
+    "pricing": "freemium",
+    "foundedAt": "2024-02-01",
+    "country": "中国",
+    "growthScore": 95,
+    "feedbackScore": 85,
+    "innovationScore": 88,
+    "totalScore": 89.7,
+    "trend": "up",
+    "rankChange": 10,
+    "tags": [
+      "Bot开发",
+      "零代码",
+      "抖音",
+      "插件生态"
+    ]
+  }
+];
+
+export function getToolsByRank(): AITool[] {
+  return [...manualEntries].sort((a, b) => b.totalScore - a.totalScore);
+}
+
+export function getToolsByCategory(category: string): AITool[] {
+  const sorted = getToolsByRank();
+  if (category === "all") return sorted;
+  return sorted.filter((t) => t.category === category);
+}
+
+export function searchTools(query: string): AITool[] {
+  const q = query.toLowerCase();
+  return getToolsByRank().filter(
+    (t) =>
+      t.name.toLowerCase().includes(q) ||
+      t.description.toLowerCase().includes(q) ||
+      t.tags.some((tag) => tag.toLowerCase().includes(q))
+  );
+}

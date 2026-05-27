@@ -1,0 +1,27 @@
+﻿name: Update Data
+on:
+  schedule:
+    - cron: "0 0 * * 1"   # 每周一 08:00 CST
+  workflow_dispatch:        # 手动触发
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm ci
+      - run: npx tsx scripts/scrape.ts
+      - name: Commit & Push
+        run: |
+          git config user.name "data-bot"
+          git config user.email "bot@ai-growth-rank.dev"
+          git add src/data/auto-data.json data/snapshots/
+          if git diff --cached --quiet; then
+            echo "No data changes"
+          else
+            git commit -m "data: weekly auto-update"
+            git push
+          fi

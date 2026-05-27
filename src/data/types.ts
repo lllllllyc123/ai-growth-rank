@@ -9,7 +9,9 @@ export interface AITool {
   visitGrowth: number;
   userRating: number;
   githubStars?: number;
-  githubRepo?: string;  // "owner/repo"
+  githubRepo?: string;
+  redditSubreddit?: string;  // "ChatGPT" → r/ChatGPT
+  huggingfaceModel?: string;  // "deepseek-ai/DeepSeek-V3"
   pricing: Pricing;
   foundedAt: string;
   country: string;

@@ -5,7 +5,13 @@ import type { AITool } from "./types";
 
 type AutoData = {
   syncedAt: string;
-  entries: Record<string, { githubStars?: number }>;
+  entries: Record<string, {
+    githubStars?: number;
+    redditSubscribers?: number;
+    hfLikes?: number;
+    githubStarGrowth?: number;
+    redditGrowth?: number;
+  }>;
 };
 
 const data = autoData as AutoData;

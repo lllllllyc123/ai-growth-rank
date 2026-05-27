@@ -15,12 +15,15 @@ if (proxyUrl) {
   console.log("Proxy: " + proxyUrl);
 }
 
+// 符合 Reddit API 规则的 User-Agent
+const USER_AGENT = "web:ai-growth-rank:v1.0 (by /u/ai-growth-rank)";
+
 // node:https 请求封装
 function httpGet(url, opts) {
   return new Promise((resolve, reject) => {
     opts = opts || {}; opts.agent = agent;
     opts.headers = opts.headers || {};
-    opts.headers["User-Agent"] = "ai-rank/1.0";
+    opts.headers["User-Agent"] = USER_AGENT;
     const u = new URL(url);
     opts.hostname = u.hostname; opts.path = u.pathname + u.search; opts.protocol = u.protocol;
     const req = https.request(opts, (res) => {
@@ -29,7 +32,9 @@ function httpGet(url, opts) {
       res.on("end", () => {
         if (res.statusCode === 200) {
           try { resolve(JSON.parse(body)); } catch(e) { resolve(body); }
-        } else { reject(new Error(url.split("/")[2] + " " + res.statusCode)); }
+        } else {
+          reject(new Error(url.split("/")[2] + " " + res.statusCode));
+        }
       });
     });
     req.on("error", reject);
@@ -37,6 +42,8 @@ function httpGet(url, opts) {
     req.end();
   });
 }
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
 const manualRaw = fs.readFileSync(manualPath, "utf-8");
 function extract(field) {
@@ -57,19 +64,24 @@ async function ghFetch(repo) {
     { headers: { Accept: "application/vnd.github.v3+json" } });
 }
 async function redditFetch(sub) {
-  // Reddit 的 .json 接口被代理节点封，改用 HTML 页面提取
-  const html = await httpGet("https://old.reddit.com/r/" + sub + "/", {});
-  // 提取 subscribers 数字: <span class="number">7,123,456</span>
-  const m = (typeof html === "string" ? html : "").match(/<span class="number">([\d,]+)<\/span>/);
-  if (m) return parseInt(m[1].replace(/,/g, ""));
-  
-  // 备用: 尝试 about.json
+  // 优先用 www.reddit.com 的 about.json API
   try {
-    const d = await httpGet("https://old.reddit.com/r/" + sub + "/about.json");
-    return d.data ? d.data.subscribers : 0;
+    const d = await httpGet("https://www.reddit.com/r/" + sub + "/about.json");
+    if (d.data && d.data.subscribers) return d.data.subscribers;
   } catch(e) {
-    throw new Error("Reddit parse fail");
+    // 回退到 old.reddit.com
+    try {
+      const d2 = await httpGet("https://old.reddit.com/r/" + sub + "/about.json");
+      if (d2.data && d2.data.subscribers) return d2.data.subscribers;
+    } catch(e2) {
+      // 最后尝试 HTML 页面提取
+      const html = await httpGet("https://old.reddit.com/r/" + sub + "/", {});
+      const m = (typeof html === "string" ? html : "").match(/<span class="number">([\d,]+)<\/span>/);
+      if (m) return parseInt(m[1].replace(/,/g, ""));
+      throw new Error("Reddit parse fail");
+    }
   }
+  throw new Error("Reddit parse fail");
 }
 async function hfFetch(model) {
   const d = await httpGet("https://huggingface.co/api/models/" + model);
@@ -95,6 +107,7 @@ async function main() {
   }
   for (const { slug, val: sub } of subs) {
     try {
+      await sleep(500); // Reddit 请求间隔，避免被限流
       const c = await redditFetch(sub);
       entries[slug] = Object.assign({}, entries[slug], { redditSubscribers: c });
       const p = (last.entries[slug] && last.entries[slug].redditSubscribers) || 0;

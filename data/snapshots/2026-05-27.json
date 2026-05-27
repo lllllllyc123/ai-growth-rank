@@ -1,13 +1,13 @@
 {
-  "syncedAt": "2026-05-27T06:36:53.887Z",
+  "syncedAt": "2026-05-27T07:59:58.058Z",
   "entries": {
     "deepseek": {
-      "githubStars": 103631,
-      "githubStarGrowth": 0
+      "githubStars": 103632,
+      "githubStarGrowth": 0.0009649622217290193
     },
     "dify": {
-      "githubStars": 142794,
-      "githubStarGrowth": 0.0007003144411840917
+      "githubStars": 142818,
+      "githubStarGrowth": 0.016807428883566535
     }
   }
 }

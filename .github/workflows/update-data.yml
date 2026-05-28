@@ -1,5 +1,9 @@
 name: Update Data
 on:
+  push:
+    paths:
+      - '.trigger'
+      - 'src/data/tools-manual.ts'
   schedule:
     - cron: "0 0 * * 1"   # 每周一 08:00 CST
   workflow_dispatch:        # 手动触发

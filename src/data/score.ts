@@ -42,10 +42,12 @@ export function computeAllScores(): Record<string, number> {
     if (e.chromeUsers && e.chromeUsers > maxChromeUsers) maxChromeUsers = e.chromeUsers;
   }
 
+  // 维度权重
+  const W = { phVotes: 0.25, phReviews: 0.10, ghStars: 0.20, hfLikes: 0.10, hfDownloads: 0.15, chrome: 0.20 };
+
   const scores: Record<string, number> = {};
   for (const s of slugs) {
     const e = entries[s];
-    // PH票数 25% + PH评论 10% + GitHub 20% + HF Likes 10% + HF下载 15% + Chrome 20%
     const phVoteScore = normalizeLog(e.phVotes ?? 0, maxPhVotes);
     const phReviewScore = normalizeLog(e.phReviews ?? 0, maxPhReviews);
     const ghScore = normalizeLog(e.githubStars ?? 0, maxGhStars);
@@ -53,14 +55,23 @@ export function computeAllScores(): Record<string, number> {
     const hfDownloadScore = normalizeLog(e.hfDownloads ?? 0, maxHfDownloads);
     const chromeScore = normalizeLog(e.chromeUsers ?? 0, maxChromeUsers);
 
-    scores[s] = Math.round(
-      phVoteScore * 0.25 +
-      phReviewScore * 0.10 +
-      ghScore * 0.20 +
-      hfLikeScore * 0.10 +
-      hfDownloadScore * 0.15 +
-      chromeScore * 0.20
-    );
+    // 计算可用维度权重（只有真实有数据的维度才计入）
+    let avail = 0;
+    if ((e.phVotes ?? 0) > 0) avail += W.phVotes;
+    if ((e.phReviews ?? 0) > 0) avail += W.phReviews;
+    if ((e.githubStars ?? 0) > 0) avail += W.ghStars;
+    if ((e.hfLikes ?? 0) > 0) avail += W.hfLikes;
+    if ((e.hfDownloads ?? 0) > 0) avail += W.hfDownloads;
+    if ((e.chromeUsers ?? 0) > 0) avail += W.chrome;
+    // 最小可用权重 50%，防止单源数据过度放大
+    avail = Math.max(avail, 0.50);
+
+    const raw = phVoteScore * W.phVotes + phReviewScore * W.phReviews
+      + ghScore * W.ghStars + hfLikeScore * W.hfLikes
+      + hfDownloadScore * W.hfDownloads + chromeScore * W.chrome;
+
+    // 自适应归一化：可用维度少的工具按比例放大到 0-100
+    scores[s] = Math.round(Math.min(100, raw / avail));
   }
   return scores;
 }

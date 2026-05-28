@@ -5,23 +5,28 @@ export interface AITool {
   url: string;
   description: string;
   category: Category;
-  monthlyVisits: number;
-  visitGrowth: number;
-  userRating: number;
+  // 数据源映射
   githubStars?: number;
   githubRepo?: string;
-  phSlug?: string;  // Product Hunt 产品页 slug，如 "chatgpt"
-  huggingfaceModel?: string;  // "deepseek-ai/DeepSeek-V3"
+  phSlug?: string;
+  huggingfaceModel?: string;
+  chromeExtensionId?: string;
+  // 静态字段
   pricing: Pricing;
   foundedAt: string;
   country: string;
-  growthScore: number;
-  feedbackScore: number;
-  innovationScore: number;
-  totalScore: number;
-  trend: "up" | "down" | "stable";
-  rankChange?: number;
   tags: string[];
+  // 以下为兼容旧数据，新评分系统不再使用
+  monthlyVisits?: number;
+  visitGrowth?: number;
+  userRating?: number;
+  redditSubreddit?: string;
+  growthScore?: number;
+  feedbackScore?: number;
+  innovationScore?: number;
+  totalScore?: number;
+  trend?: string;
+  rankChange?: number;
 }
 
 export type Category =

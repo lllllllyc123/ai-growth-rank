@@ -31,9 +31,7 @@ function httpGet(url, opts) {
       res.on("end", () => {
         if (res.statusCode === 200) {
           try { resolve(JSON.parse(body)); } catch(e) { resolve(body); }
-        } else {
-          reject(new Error(u.hostname + " " + res.statusCode));
-        }
+        } else { reject(new Error(u.hostname + " " + res.statusCode)); }
       });
     });
     req.on("error", reject);
@@ -55,9 +53,7 @@ function httpPost(url, body, opts) {
       res.on("end", () => {
         if (res.statusCode === 200) {
           try { resolve(JSON.parse(rb)); } catch(e) { resolve(rb); }
-        } else {
-          reject(new Error(u.hostname + " " + res.statusCode + ": " + rb.substring(0, 200)));
-        }
+        } else { reject(new Error(u.hostname + " " + res.statusCode)); }
       });
     });
     req.on("error", reject);
@@ -99,30 +95,21 @@ async function phFetch(slug) {
   const query = {
     query: `{ post(slug: "${slug}") { id name votesCount reviewsCount } }`,
   };
-  const data = await httpPost(
-    "https://api.producthunt.com/v2/api/graphql",
-    query,
-    {
-      headers: {
-        Authorization: "Bearer " + PRODUCT_HUNT_TOKEN,
-        "Content-Type": "application/json",
-        "User-Agent": "ai-growth-rank/1.0",
-      },
-    }
-  );
-  if (!data.data || !data.data.post) {
-    throw new Error("PH post not found: " + slug);
-  }
-  return {
-    votes: data.data.post.votesCount,
-    reviews: data.data.post.reviewsCount,
-  };
+  const data = await httpPost("https://api.producthunt.com/v2/api/graphql", query, {
+    headers: {
+      Authorization: "Bearer " + PRODUCT_HUNT_TOKEN,
+      "Content-Type": "application/json",
+      "User-Agent": "ai-growth-rank/1.0",
+    },
+  });
+  if (!data.data || !data.data.post) throw new Error("PH post not found: " + slug);
+  return { votes: data.data.post.votesCount, reviews: data.data.post.reviewsCount };
 }
 
 // HuggingFace
 async function hfFetch(model) {
   const d = await httpGet("https://huggingface.co/api/models/" + model);
-  return d.likes || 0;
+  return { likes: d.likes || 0, downloads: d.downloads || 0 };
 }
 
 function loadLast() {
@@ -151,20 +138,18 @@ async function main() {
     try {
       await sleep(500);
       const ph = await phFetch(phSlug);
-      entries[slug] = Object.assign({}, entries[slug], {
-        phVotes: ph.votes,
-        phReviews: ph.reviews,
-      });
+      entries[slug] = Object.assign({}, entries[slug], { phVotes: ph.votes, phReviews: ph.reviews });
       console.log("  " + slug + ": PH " + ph.votes.toLocaleString() + " votes, " + ph.reviews + " reviews");
     } catch (e) { console.log("  " + slug + ": PH fail - " + e.message); }
   }
 
-  // HuggingFace Likes
+  // HuggingFace (likes + downloads)
   for (const { slug, val: model } of hfModels) {
     try {
-      const likes = await hfFetch(model);
-      entries[slug] = Object.assign({}, entries[slug], { hfLikes: likes });
-      console.log("  " + slug + ": HF " + likes.toLocaleString() + " likes");
+      await sleep(200);
+      const hf = await hfFetch(model);
+      entries[slug] = Object.assign({}, entries[slug], { hfLikes: hf.likes, hfDownloads: hf.downloads });
+      console.log("  " + slug + ": HF " + hf.likes.toLocaleString() + " likes, " + hf.downloads.toLocaleString() + " downloads");
     } catch (e) { console.log("  " + slug + ": HF fail - " + e.message); }
   }
 
@@ -174,8 +159,7 @@ async function main() {
   fs.mkdirSync(snapDir, { recursive: true });
   fs.writeFileSync(
     path.join(snapDir, n.getFullYear() + "-" + String(n.getMonth() + 1).padStart(2, "0") + "-" + String(n.getDate()).padStart(2, "0") + ".json"),
-    JSON.stringify(ad, null, 2),
-    "utf-8"
+    JSON.stringify(ad, null, 2), "utf-8"
   );
   console.log("Done. " + Object.keys(entries).length + " tools.");
 }

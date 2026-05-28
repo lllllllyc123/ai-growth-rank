@@ -1,26 +1,35 @@
 {
-  "syncedAt": "2026-05-28T06:18:01.771Z",
+  "syncedAt": "2026-05-28T08:18:30.173Z",
   "entries": {
     "bolt-new": {
       "githubStars": 16390,
-      "githubStarGrowth": 0.04272721723738021,
+      "githubStarGrowth": 0,
       "phVotes": 1250,
       "phReviews": 43
     },
     "deepseek": {
       "githubStars": 103638,
-      "githubStarGrowth": 0.004824717995233178,
+      "githubStarGrowth": 0,
       "phVotes": 11,
-      "phReviews": 0,
-      "hfLikes": 4077
+      "phReviews": 0
     },
     "dify": {
-      "githubStars": 142939,
-      "githubStarGrowth": 0.08192015235747994
+      "githubStars": 142957,
+      "githubStarGrowth": 0.0006995159349729987,
+      "phVotes": 250,
+      "phReviews": 6
     },
     "chatgpt": {
       "phVotes": 1636,
       "phReviews": 669
+    },
+    "claude": {
+      "phVotes": 17,
+      "phReviews": 1
+    },
+    "gemini": {
+      "phVotes": 73,
+      "phReviews": 0
     },
     "midjourney": {
       "phVotes": 439,
@@ -29,6 +38,10 @@
     "cursor": {
       "phVotes": 23,
       "phReviews": 0
+    },
+    "github-copilot": {
+      "phVotes": 146,
+      "phReviews": 26
     },
     "perplexity": {
       "phVotes": 236,
@@ -53,6 +66,10 @@
     "lovable": {
       "phVotes": 1493,
       "phReviews": 184
+    },
+    "kimi": {
+      "phVotes": 151,
+      "phReviews": 2
     },
     "gamma": {
       "phVotes": 1125,

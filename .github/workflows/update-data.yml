@@ -17,6 +17,8 @@ jobs:
           node-version: "20"
       - run: npm ci
       - run: npx tsx scripts/scrape.ts
+        env:
+          PRODUCT_HUNT_TOKEN: ${{ secrets.PRODUCT_HUNT_TOKEN }}
       - name: Commit & Push
         run: |
           git config user.name "data-bot"

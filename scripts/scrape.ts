@@ -15,15 +15,14 @@ if (proxyUrl) {
   console.log("Proxy: " + proxyUrl);
 }
 
-// 符合 Reddit API 规则的 User-Agent
-const USER_AGENT = "web:ai-growth-rank:v1.0 (by /u/ai-growth-rank)";
+const PRODUCT_HUNT_TOKEN = process.env.PRODUCT_HUNT_TOKEN || "";
+if (!PRODUCT_HUNT_TOKEN) console.log("WARNING: PRODUCT_HUNT_TOKEN not set");
 
-// node:https 请求封装
 function httpGet(url, opts) {
   return new Promise((resolve, reject) => {
     opts = opts || {}; opts.agent = agent;
     opts.headers = opts.headers || {};
-    opts.headers["User-Agent"] = USER_AGENT;
+    opts.method = "GET";
     const u = new URL(url);
     opts.hostname = u.hostname; opts.path = u.pathname + u.search; opts.protocol = u.protocol;
     const req = https.request(opts, (res) => {
@@ -33,12 +32,37 @@ function httpGet(url, opts) {
         if (res.statusCode === 200) {
           try { resolve(JSON.parse(body)); } catch(e) { resolve(body); }
         } else {
-          reject(new Error(url.split("/")[2] + " " + res.statusCode));
+          reject(new Error(u.hostname + " " + res.statusCode));
         }
       });
     });
     req.on("error", reject);
     req.setTimeout(15000, () => { req.destroy(); reject(new Error("timeout")); });
+    req.end();
+  });
+}
+
+function httpPost(url, body, opts) {
+  return new Promise((resolve, reject) => {
+    opts = opts || {}; opts.agent = agent;
+    opts.headers = opts.headers || {};
+    opts.method = "POST";
+    const u = new URL(url);
+    opts.hostname = u.hostname; opts.path = u.pathname + u.search; opts.protocol = u.protocol;
+    const req = https.request(opts, (res) => {
+      let rb = "";
+      res.on("data", d => rb += d);
+      res.on("end", () => {
+        if (res.statusCode === 200) {
+          try { resolve(JSON.parse(rb)); } catch(e) { resolve(rb); }
+        } else {
+          reject(new Error(u.hostname + " " + res.statusCode + ": " + rb.substring(0, 200)));
+        }
+      });
+    });
+    req.on("error", reject);
+    req.setTimeout(15000, () => { req.destroy(); reject(new Error("timeout")); });
+    req.write(typeof body === "string" ? body : JSON.stringify(body));
     req.end();
   });
 }
@@ -51,42 +75,56 @@ function extract(field) {
   const out = [];
   for (const m of manualRaw.matchAll(re)) {
     let s = "";
-    for (const x of manualRaw.matchAll(/"slug":\s*"([^"]+)"/g)) { if (x.index < m.index) s = x[1]; else break; }
+    for (const x of manualRaw.matchAll(/"slug":\s*"([^"]+)"/g)) {
+      if (x.index < m.index) s = x[1]; else break;
+    }
     out.push({ slug: s, val: m[1] });
   }
   return out;
 }
-const repos = extract("githubRepo"), subs = extract("redditSubreddit"), hfModels = extract("huggingfaceModel");
-console.log("Sources: " + repos.length + " GH, " + subs.length + " Reddit, " + hfModels.length + " HF");
+const repos = extract("githubRepo"),
+  phSlugs = extract("phSlug"),
+  hfModels = extract("huggingfaceModel");
+console.log("Sources: " + repos.length + " GH, " + phSlugs.length + " PH, " + hfModels.length + " HF");
 
+// GitHub
 async function ghFetch(repo) {
-  return httpGet("https://api.github.com/repos/" + repo,
-    { headers: { Accept: "application/vnd.github.v3+json" } });
+  return httpGet("https://api.github.com/repos/" + repo, {
+    headers: { Accept: "application/vnd.github.v3+json", "User-Agent": "ai-rank/1.0" },
+  });
 }
-async function redditFetch(sub) {
-  // 优先用 www.reddit.com 的 about.json API
-  try {
-    const d = await httpGet("https://www.reddit.com/r/" + sub + "/about.json");
-    if (d.data && d.data.subscribers) return d.data.subscribers;
-  } catch(e) {
-    // 回退到 old.reddit.com
-    try {
-      const d2 = await httpGet("https://old.reddit.com/r/" + sub + "/about.json");
-      if (d2.data && d2.data.subscribers) return d2.data.subscribers;
-    } catch(e2) {
-      // 最后尝试 HTML 页面提取
-      const html = await httpGet("https://old.reddit.com/r/" + sub + "/", {});
-      const m = (typeof html === "string" ? html : "").match(/<span class="number">([\d,]+)<\/span>/);
-      if (m) return parseInt(m[1].replace(/,/g, ""));
-      throw new Error("Reddit parse fail");
+
+// Product Hunt API v2 (GraphQL)
+async function phFetch(slug) {
+  const query = {
+    query: `{ post(slug: "${slug}") { id name votesCount reviewsCount } }`,
+  };
+  const data = await httpPost(
+    "https://api.producthunt.com/v2/api/graphql",
+    query,
+    {
+      headers: {
+        Authorization: "Bearer " + PRODUCT_HUNT_TOKEN,
+        "Content-Type": "application/json",
+        "User-Agent": "ai-growth-rank/1.0",
+      },
     }
+  );
+  if (!data.data || !data.data.post) {
+    throw new Error("PH post not found: " + slug);
   }
-  throw new Error("Reddit parse fail");
+  return {
+    votes: data.data.post.votesCount,
+    reviews: data.data.post.reviewsCount,
+  };
 }
+
+// HuggingFace
 async function hfFetch(model) {
   const d = await httpGet("https://huggingface.co/api/models/" + model);
   return d.likes || 0;
 }
+
 function loadLast() {
   if (!fs.existsSync(snapDir)) return { entries: {} };
   const files = fs.readdirSync(snapDir).filter(f => f.endsWith(".json")).sort();
@@ -96,6 +134,8 @@ function loadLast() {
 
 async function main() {
   const entries = {}, last = loadLast();
+
+  // GitHub Stars
   for (const { slug, val: repo } of repos) {
     try {
       const d = await ghFetch(repo);
@@ -105,25 +145,38 @@ async function main() {
       console.log("  " + slug + ": " + d.stargazers_count.toLocaleString() + " stars");
     } catch (e) { console.log("  " + slug + ": GH fail - " + e.message); }
   }
-  for (const { slug, val: sub } of subs) {
+
+  // Product Hunt
+  for (const { slug, val: phSlug } of phSlugs) {
     try {
-      await sleep(500); // Reddit 请求间隔，避免被限流
-      const c = await redditFetch(sub);
-      entries[slug] = Object.assign({}, entries[slug], { redditSubscribers: c });
-      const p = (last.entries[slug] && last.entries[slug].redditSubscribers) || 0;
-      entries[slug].redditGrowth = p > 0 ? ((c - p) / p) * 100 : 0;
-      console.log("  " + slug + ": r/" + sub + " " + c.toLocaleString() + " subs");
-    } catch (e) { console.log("  " + slug + ": Reddit fail - " + e.message); }
+      await sleep(500);
+      const ph = await phFetch(phSlug);
+      entries[slug] = Object.assign({}, entries[slug], {
+        phVotes: ph.votes,
+        phReviews: ph.reviews,
+      });
+      console.log("  " + slug + ": PH " + ph.votes.toLocaleString() + " votes, " + ph.reviews + " reviews");
+    } catch (e) { console.log("  " + slug + ": PH fail - " + e.message); }
   }
+
+  // HuggingFace Likes
   for (const { slug, val: model } of hfModels) {
-    try { const likes = await hfFetch(model); entries[slug] = Object.assign({}, entries[slug], { hfLikes: likes }); console.log("  " + slug + ": HF " + likes.toLocaleString() + " likes"); }
-    catch (e) { console.log("  " + slug + ": HF fail - " + e.message); }
+    try {
+      const likes = await hfFetch(model);
+      entries[slug] = Object.assign({}, entries[slug], { hfLikes: likes });
+      console.log("  " + slug + ": HF " + likes.toLocaleString() + " likes");
+    } catch (e) { console.log("  " + slug + ": HF fail - " + e.message); }
   }
+
   const ad = { syncedAt: new Date().toISOString(), entries };
   fs.writeFileSync(autoPath, JSON.stringify(ad, null, 2), "utf-8");
   const n = new Date();
   fs.mkdirSync(snapDir, { recursive: true });
-  fs.writeFileSync(path.join(snapDir, n.getFullYear()+"-"+String(n.getMonth()+1).padStart(2,"0")+"-"+String(n.getDate()).padStart(2,"0")+".json"), JSON.stringify(ad, null, 2), "utf-8");
+  fs.writeFileSync(
+    path.join(snapDir, n.getFullYear() + "-" + String(n.getMonth() + 1).padStart(2, "0") + "-" + String(n.getDate()).padStart(2, "0") + ".json"),
+    JSON.stringify(ad, null, 2),
+    "utf-8"
+  );
   console.log("Done. " + Object.keys(entries).length + " tools.");
 }
 main().catch(e => { console.error("FATAL:", e.message); process.exit(1); });

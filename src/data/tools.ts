@@ -1,4 +1,4 @@
-﻿// 构建时合并人工数据与自动数据
+// 构建时合并人工数据与自动数据
 import { manualEntries } from "./tools-manual";
 import autoData from "./auto-data.json";
 import type { AITool } from "./types";
@@ -7,10 +7,10 @@ type AutoData = {
   syncedAt: string;
   entries: Record<string, {
     githubStars?: number;
-    redditSubscribers?: number;
+    phVotes?: number;
+    phReviews?: number;
     hfLikes?: number;
     githubStarGrowth?: number;
-    redditGrowth?: number;
   }>;
 };
 

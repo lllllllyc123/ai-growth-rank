@@ -1,4 +1,4 @@
-﻿// AI工具数据类型定义
+// AI工具数据类型定义
 export interface AITool {
   slug: string;
   name: string;
@@ -10,7 +10,7 @@ export interface AITool {
   userRating: number;
   githubStars?: number;
   githubRepo?: string;
-  redditSubreddit?: string;  // "ChatGPT" → r/ChatGPT
+  phSlug?: string;  // Product Hunt 产品页 slug，如 "chatgpt"
   huggingfaceModel?: string;  // "deepseek-ai/DeepSeek-V3"
   pricing: Pricing;
   foundedAt: string;

@@ -38,7 +38,7 @@ export const manualEntries: AITool[] = [
     "url": "https://claude.ai",
     "description": "Anthropic推出的AI助手，擅长长文本处理与深度推理，支持代码解释与多轮对话。",
     "category": "ai-chat",
-    "phSlug": "claude-ai",
+    "phSlug": "claude-2",
     "chromeExtensionId": "fcoeoabgfenejglbffodgkkbkcdhcgfn",
     "monthlyVisits": 680000000,
     "visitGrowth": 22.3,

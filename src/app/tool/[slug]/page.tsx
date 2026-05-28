@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { tools } from "@/data/tools";
+import autoData from "@/data/auto-data.json";
 import { CATEGORY_LABELS, PRICING_LABELS, type Category } from "@/data/types";
 
 interface Props {
@@ -33,6 +34,16 @@ export default async function ToolPage({ params }: Props) {
   const { slug } = await params;
   const tool = tools.find((t) => t.slug === slug);
   if (!tool) notFound();
+
+  const entry = (autoData as Record<string, unknown>).entries as Record<string, {
+    githubStars?: number;
+    phVotes?: number;
+    phReviews?: number;
+    hfLikes?: number;
+  }> | undefined;
+  const auto = entry?.[slug];
+
+  const hasAutoData = !!(auto?.githubStars || auto?.phVotes || auto?.hfLikes);
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-8">
@@ -106,7 +117,76 @@ export default async function ToolPage({ params }: Props) {
           <InfoItem label="上线时间" value={tool.foundedAt} />
         </section>
 
-        {tool.githubStars && (
+        {/* Auto-fetched community data */}
+        {hasAutoData && (
+          <section>
+            <h2 className="mb-3 text-sm font-semibold text-slate-300">社区数据（自动抓取）</h2>
+            <div className="rounded-xl border border-slate-800 bg-slate-900/50 p-4 space-y-2">
+              {auto?.githubStars && (
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-slate-400">⭐ GitHub Stars</span>
+                  <span className="text-slate-200 font-mono">
+                    {auto.githubStars.toLocaleString()}
+                    {tool.githubRepo && (
+                      <a
+                        href={`https://github.com/${tool.githubRepo}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="ml-2 text-xs text-slate-500 hover:text-blue-400 transition"
+                      >
+                        {tool.githubRepo}
+                      </a>
+                    )}
+                  </span>
+                </div>
+              )}
+              {auto?.phVotes !== undefined && (
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-slate-400">🏆 Product Hunt</span>
+                  <span className="text-slate-200 font-mono">
+                    {auto.phVotes.toLocaleString()} 票
+                    {auto.phReviews !== undefined && (
+                      <span className="ml-1 text-xs text-slate-500">
+                        · {auto.phReviews} 评论
+                      </span>
+                    )}
+                    {tool.phSlug && (
+                      <a
+                        href={`https://www.producthunt.com/products/${tool.phSlug}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="ml-2 text-xs text-slate-500 hover:text-orange-400 transition"
+                      >
+                        PH →
+                      </a>
+                    )}
+                  </span>
+                </div>
+              )}
+              {auto?.hfLikes && (
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-slate-400">🤗 HuggingFace Likes</span>
+                  <span className="text-slate-200 font-mono">
+                    {auto.hfLikes.toLocaleString()}
+                    {tool.huggingfaceModel && (
+                      <a
+                        href={`https://huggingface.co/${tool.huggingfaceModel}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="ml-2 text-xs text-slate-500 hover:text-yellow-400 transition"
+                      >
+                        {tool.huggingfaceModel}
+                      </a>
+                    )}
+                  </span>
+                </div>
+              )}
+            </div>
+          </section>
+        )}
+
+        {/* Legacy GitHub section - keep for tools without auto-data */}
+        {!auto?.githubStars && tool.githubStars && (
           <section>
             <h2 className="mb-3 text-sm font-semibold text-slate-300">GitHub</h2>
             <div className="rounded-xl border border-slate-800 bg-slate-900/50 p-4">

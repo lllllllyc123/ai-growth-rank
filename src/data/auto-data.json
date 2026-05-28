@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-05-28T09:41:55.822Z",
+  "syncedAt": "2026-05-28T09:51:05.627Z",
   "entries": {
     "bolt-new": {
       "githubStars": 16390,
@@ -25,12 +25,14 @@
     "chatgpt": {
       "phVotes": 1636,
       "phReviews": 669,
-      "npmDownloads": 22620668
+      "npmDownloads": 22620668,
+      "chromeUsers": 20000
     },
     "claude": {
       "phVotes": 255,
       "phReviews": 812,
-      "npmDownloads": 20832235
+      "npmDownloads": 20832235,
+      "chromeUsers": 8000000
     },
     "gemini": {
       "phVotes": 73,
@@ -49,11 +51,13 @@
     },
     "github-copilot": {
       "phVotes": 146,
-      "phReviews": 26
+      "phReviews": 26,
+      "chromeUsers": 4000
     },
     "perplexity": {
       "phVotes": 236,
-      "phReviews": 92
+      "phReviews": 92,
+      "chromeUsers": 200000
     },
     "runway": {
       "phVotes": 103,
@@ -72,7 +76,8 @@
     "notion-ai": {
       "phVotes": 4,
       "phReviews": 1,
-      "npmDownloads": 4028527
+      "npmDownloads": 4028527,
+      "chromeUsers": 1000000
     },
     "lovable": {
       "phVotes": 1493,

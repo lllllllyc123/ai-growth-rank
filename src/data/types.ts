@@ -11,6 +11,8 @@ export interface AITool {
   phSlug?: string;
   huggingfaceModel?: string;
   chromeExtensionId?: string;
+  npmPackage?: string;
+  dockerImage?: string;
   // 静态字段
   pricing: Pricing;
   foundedAt: string;

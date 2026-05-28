@@ -81,8 +81,10 @@ function extract(field) {
 const repos = extract("githubRepo"),
   phSlugs = extract("phSlug"),
   hfModels = extract("huggingfaceModel"),
-  chromeExts = extract("chromeExtensionId");
-console.log("Sources: " + repos.length + " GH, " + phSlugs.length + " PH, " + hfModels.length + " HF, " + chromeExts.length + " Chrome");
+  chromeExts = extract("chromeExtensionId"),
+  npmPkgs = extract("npmPackage"),
+  dockerImgs = extract("dockerImage");
+console.log("Sources: " + repos.length + " GH, " + phSlugs.length + " PH, " + hfModels.length + " HF, " + chromeExts.length + " Chrome, " + npmPkgs.length + " npm, " + dockerImgs.length + " Docker");
 
 // GitHub
 async function ghFetch(repo) {
@@ -131,6 +133,18 @@ async function chromeFetch(extId) {
   } catch (e) {
     return 0;
   }
+}
+
+// npm downloads
+async function npmFetch(pkg) {
+  const d = await httpGet("https://api.npmjs.org/downloads/point/last-week/" + encodeURIComponent(pkg));
+  return d.downloads || 0;
+}
+
+// Docker Hub pulls
+async function dockerFetch(image) {
+  const d = await httpGet("https://hub.docker.com/v2/repositories/" + image + "/");
+  return d.pull_count || 0;
 }
 
 async function main() {
@@ -186,6 +200,32 @@ async function main() {
         console.log("  " + slug + ": Chrome " + users.toLocaleString() + " users");
       }
     } catch (e) { console.log("  " + slug + ": Chrome fail - " + e.message); }
+  }
+
+    // npm downloads
+  for (const { slug, val: pkg } of npmPkgs) {
+    if (!pkg || pkg === "") continue;
+    try {
+      await sleep(200);
+      const dl = await npmFetch(pkg);
+      if (dl > 0) {
+        entries[slug] = Object.assign({}, entries[slug], { npmDownloads: dl });
+        console.log("  " + slug + ": npm " + dl.toLocaleString() + " /week");
+      }
+    } catch (e) { console.log("  " + slug + ": npm fail - " + e.message); }
+  }
+
+  // Docker Hub
+  for (const { slug, val: image } of dockerImgs) {
+    if (!image || image === "") continue;
+    try {
+      await sleep(200);
+      const pulls = await dockerFetch(image);
+      if (pulls > 0) {
+        entries[slug] = Object.assign({}, entries[slug], { dockerPulls: pulls });
+        console.log("  " + slug + ": docker " + pulls.toLocaleString() + " pulls");
+      }
+    } catch (e) { console.log("  " + slug + ": docker fail - " + e.message); }
   }
 
   console.log("Done. " + Object.keys(entries).length + " tools.");

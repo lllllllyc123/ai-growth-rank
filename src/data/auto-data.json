@@ -1,23 +1,19 @@
 {
-  "syncedAt": "2026-05-28T08:24:30.922Z",
+  "syncedAt": "2026-05-28T08:28:49.491Z",
   "entries": {
     "bolt-new": {
       "githubStars": 16390,
-      "githubStarGrowth": 0,
-      "phVotes": 1250,
-      "phReviews": 43
+      "githubStarGrowth": 0
     },
     "deepseek": {
       "githubStars": 103638,
       "githubStarGrowth": 0,
-      "phVotes": 11,
-      "phReviews": 0
+      "hfLikes": 4077,
+      "hfDownloads": 1130915
     },
     "dify": {
-      "githubStars": 142958,
-      "githubStarGrowth": 0.0006995110417817945,
-      "phVotes": 250,
-      "phReviews": 6
+      "githubStars": 142959,
+      "githubStarGrowth": 0.0006995061486590467
     },
     "chatgpt": {
       "phVotes": 1636,
@@ -32,58 +28,6 @@
       "phReviews": 0,
       "hfLikes": 3335,
       "hfDownloads": 101563
-    },
-    "midjourney": {
-      "phVotes": 439,
-      "phReviews": 81
-    },
-    "cursor": {
-      "phVotes": 23,
-      "phReviews": 0
-    },
-    "github-copilot": {
-      "phVotes": 146,
-      "phReviews": 26
-    },
-    "perplexity": {
-      "phVotes": 236,
-      "phReviews": 92
-    },
-    "runway": {
-      "phVotes": 103,
-      "phReviews": 0
-    },
-    "sora": {
-      "phVotes": 2,
-      "phReviews": 0
-    },
-    "suno": {
-      "phVotes": 8,
-      "phReviews": 16
-    },
-    "notion-ai": {
-      "phVotes": 4,
-      "phReviews": 1
-    },
-    "lovable": {
-      "phVotes": 1493,
-      "phReviews": 184
-    },
-    "kimi": {
-      "phVotes": 151,
-      "phReviews": 2
-    },
-    "gamma": {
-      "phVotes": 1125,
-      "phReviews": 78
-    },
-    "elevenlabs": {
-      "phVotes": 97,
-      "phReviews": 177
-    },
-    "coze": {
-      "phVotes": 346,
-      "phReviews": 7
     }
   }
 }

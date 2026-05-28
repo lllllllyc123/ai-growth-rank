@@ -162,7 +162,7 @@ export default function Home() {
 
       <footer className="mt-10 border-t border-slate-800 pt-6 text-center text-xs text-slate-600">
         <p>AI增长榜 · 每周一自动更新 · 数据来源：Product Hunt · GitHub · HuggingFace · Chrome Web Store</p>
-        <p className="mt-1">评分规则：PH 票数 30% + PH 评论 10% + GitHub Stars 25% + HF Likes 15% + HF 下载 15% + Chrome 用户 20%</p>
+        <p className="mt-1">评分规则：PH 票数 25% + PH 评论 10% + GitHub Stars 20% + HF Likes 10% + HF 下载 15% + Chrome 用户 20%</p>
       </footer>
     </div>
   );

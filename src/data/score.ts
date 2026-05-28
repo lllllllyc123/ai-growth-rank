@@ -54,11 +54,12 @@ export function computeAllScores(): Record<string, number> {
     const chromeScore = normalizeLog(e.chromeUsers ?? 0, maxChromeUsers);
 
     scores[s] = Math.round(
-      phVoteScore * 0.30 +
+      phVoteScore * 0.25 +
       phReviewScore * 0.10 +
-      ghScore * 0.25 +
-      hfLikeScore * 0.15 +
-      hfDownloadScore * 0.20
+      ghScore * 0.20 +
+      hfLikeScore * 0.10 +
+      hfDownloadScore * 0.15 +
+      chromeScore * 0.20
     );
   }
   return scores;

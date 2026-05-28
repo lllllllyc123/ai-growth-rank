@@ -10,7 +10,7 @@ type AutoData = {
     phVotes?: number;
     phReviews?: number;
     hfLikes?: number;
-    githubStarGrowth?: number;
+    hfDownloads?: number;
   }>;
 };
 

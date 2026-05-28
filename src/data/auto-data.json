@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-05-28T09:20:55.360Z",
+  "syncedAt": "2026-05-28T09:23:02.317Z",
   "entries": {
     "bolt-new": {
       "githubStars": 16390,
@@ -9,13 +9,15 @@
     },
     "deepseek": {
       "githubStars": 103639,
-      "githubStarGrowth": 0.0009648970454852468,
+      "githubStarGrowth": 0,
       "phVotes": 11,
-      "phReviews": 0
+      "phReviews": 0,
+      "hfLikes": 4077,
+      "hfDownloads": 1130915
     },
     "dify": {
       "githubStars": 142963,
-      "githubStarGrowth": 0.0006994865768525901,
+      "githubStarGrowth": 0,
       "phVotes": 250,
       "phReviews": 6
     },
@@ -29,7 +31,9 @@
     },
     "gemini": {
       "phVotes": 73,
-      "phReviews": 0
+      "phReviews": 0,
+      "hfLikes": 3335,
+      "hfDownloads": 101563
     },
     "midjourney": {
       "phVotes": 439,

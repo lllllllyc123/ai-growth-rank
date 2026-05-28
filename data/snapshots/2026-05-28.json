@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-05-28T09:37:42.757Z",
+  "syncedAt": "2026-05-28T09:40:15.571Z",
   "entries": {
     "bolt-new": {
       "githubStars": 16390,
@@ -9,7 +9,7 @@
     },
     "deepseek": {
       "githubStars": 103638,
-      "githubStarGrowth": -0.0009648877353119964,
+      "githubStarGrowth": 0,
       "phVotes": 11,
       "phReviews": 0,
       "hfLikes": 4077,
@@ -17,7 +17,7 @@
     },
     "dify": {
       "githubStars": 142966,
-      "githubStarGrowth": 0.0020984450522163077,
+      "githubStarGrowth": 0,
       "phVotes": 250,
       "phReviews": 6
     },

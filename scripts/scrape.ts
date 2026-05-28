@@ -80,7 +80,8 @@ function extract(field) {
 }
 const repos = extract("githubRepo"),
   phSlugs = extract("phSlug"),
-  hfModels = extract("huggingfaceModel");
+  hfModels = extract("huggingfaceModel"),
+  chromeExts = extract("chromeExtensionId");
 console.log("Sources: " + repos.length + " GH, " + phSlugs.length + " PH, " + hfModels.length + " HF, " + chromeExts.length + " Chrome");
 
 // GitHub
@@ -119,25 +120,16 @@ function loadLast() {
   return JSON.parse(fs.readFileSync(path.join(snapDir, files[files.length - 1]), "utf-8"));
 }
 
-// Chrome Web Store
+// Chrome Web Store (graceful: fast fail if unreachable)
 async function chromeFetch(extId) {
   try {
-    // Try Chrome Web Store product page (may work from US-based runners)
     const html = await httpGet("https://chrome.google.com/webstore/detail/test/" + extId + "?hl=en", {
-      headers: {
-        "User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1)",
-        "Accept": "text/html",
-      },
+      headers: { "User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1)" },
     });
-    // Look for embedded user count data
-    const userMatch = html.match(/"userCount"[:s]*(d+)/) || html.match(/"interactionCount"[:s]*"(d+)"/);
-    if (userMatch) return parseInt(userMatch[1]);
-    // Try alternative endpoint
-    const alt = await httpGet("https://clients2.google.com/service/update2/crx?response=redirect&prodversion=9999&acceptformat=crx3&x=id%3D" + extId + "%26uc", {});
-    // Could parse download count from headers
-    return 0;
+    const m = html.match(/"userCount"[:s]*(d+)/) || html.match(/"interactionCount"[:s]*"(d+)"/);
+    return m ? parseInt(m[1]) : 0;
   } catch (e) {
-    throw new Error("Chrome fetch failed: " + e.message);
+    return 0;
   }
 }
 

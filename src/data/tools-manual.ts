@@ -10,8 +10,7 @@ export const manualEntries: AITool[] = [
     "url": "https://chat.openai.com",
     "description": "OpenAI开发的多模态大语言模型对话平台，支持文本、图像、代码生成与分析。",
     "category": "ai-chat",
-    "phSlug": "chatgpt",
-    "chromeExtensionId": "", // TODO: 查找 ChatGPT Chrome 扩展 ID
+    "phSlug": "chatgpt",\n    "chromeExtensionId": "iimdmhmbedafhnjdccafpegfkadhkpoj", 查找 ChatGPT Chrome 扩展 ID
     "monthlyVisits": 4200000000,
     "visitGrowth": 8.5,
     "userRating": 4.8,
@@ -38,8 +37,7 @@ export const manualEntries: AITool[] = [
     "url": "https://claude.ai",
     "description": "Anthropic推出的AI助手，擅长长文本处理与深度推理，支持代码解释与多轮对话。",
     "category": "ai-chat",
-    "phSlug": "claude-ai",
-    "chromeExtensionId": "", // TODO: 查找 Claude Chrome 扩展 ID
+    "phSlug": "claude-ai",\n    "chromeExtensionId": "fcoeoabgfenejglbffodgkkbkcdhcgfn", 查找 Claude Chrome 扩展 ID
     "monthlyVisits": 680000000,
     "visitGrowth": 22.3,
     "userRating": 4.7,
@@ -146,8 +144,7 @@ export const manualEntries: AITool[] = [
     "url": "https://github.com/features/copilot",
     "description": "GitHub推出的AI编程助手，支持代码补全、Chat对话、代码审查与Agent模式。",
     "category": "ai-code",
-    "phSlug": "github-copilot-x",
-    "chromeExtensionId": "", // TODO: 查找 GitHub Copilot Chrome 扩展 ID
+    "phSlug": "github-copilot-x",\n    "chromeExtensionId": "fpnodhlacbkbgnblhkcbjdlijfdppilo", 查找 GitHub Copilot Chrome 扩展 ID
     "monthlyVisits": 120000000,
     "visitGrowth": 18.6,
     "userRating": 4.6,
@@ -174,8 +171,7 @@ export const manualEntries: AITool[] = [
     "url": "https://www.perplexity.ai",
     "description": "AI驱动的新一代搜索引擎，实时联网检索并生成带引用来源的答案，支持深度研究模式。",
     "category": "ai-search",
-    "phSlug": "perplexity-ai",
-    "chromeExtensionId": "", // TODO: 查找 Perplexity Chrome 扩展 ID
+    "phSlug": "perplexity-ai",\n    "chromeExtensionId": "bnaffjbjpgiagpondjlnneblepbdchol", 查找 Perplexity Chrome 扩展 ID
     "monthlyVisits": 110000000,
     "visitGrowth": 28.4,
     "userRating": 4.6,
@@ -284,8 +280,7 @@ export const manualEntries: AITool[] = [
     "url": "https://www.notion.so/product/ai",
     "description": "集成在Notion工作空间中的AI助手，支持文档写作、摘要、翻译、数据库分析与自动化。",
     "category": "ai-writing",
-    "phSlug": "notion-ai",
-    "chromeExtensionId": "", // TODO: 查找 Notion Web Clipper 扩展 ID
+    "phSlug": "notion-ai",\n    "chromeExtensionId": "knheggckgoiihginacbkhaalnibhilkk", 查找 Notion Web Clipper 扩展 ID
     "monthlyVisits": 280000000,
     "visitGrowth": 10.2,
     "userRating": 4.3,

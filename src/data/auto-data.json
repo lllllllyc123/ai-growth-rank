@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-05-28T08:18:30.173Z",
+  "syncedAt": "2026-05-28T08:24:30.922Z",
   "entries": {
     "bolt-new": {
       "githubStars": 16390,
@@ -14,8 +14,8 @@
       "phReviews": 0
     },
     "dify": {
-      "githubStars": 142957,
-      "githubStarGrowth": 0.0006995159349729987,
+      "githubStars": 142958,
+      "githubStarGrowth": 0.0006995110417817945,
       "phVotes": 250,
       "phReviews": 6
     },
@@ -29,7 +29,9 @@
     },
     "gemini": {
       "phVotes": 73,
-      "phReviews": 0
+      "phReviews": 0,
+      "hfLikes": 3335,
+      "hfDownloads": 101563
     },
     "midjourney": {
       "phVotes": 439,

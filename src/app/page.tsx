@@ -84,6 +84,7 @@ export default function Home() {
               <th className="py-3 pr-4 text-right">热度分</th>
               <th className="py-3 pr-4 text-right">PH 票数</th>
               <th className="py-3 pr-4 text-right hidden md:table-cell">GitHub</th>
+              <th className="py-3 pr-4 text-right hidden lg:table-cell">npm</th>
               <th className="py-3 pr-4 text-right hidden lg:table-cell">Chrome</th>
               <th className="py-3 pr-4 hidden lg:table-cell">定价</th>
             </tr>
@@ -141,6 +142,15 @@ export default function Home() {
                       </span>
                     </td>
                     <td className="py-3 pr-4 text-right hidden md:table-cell">
+                      {data?.npmDownloads ? (
+                        <span className="text-xs text-green-400 font-mono">
+                          📦 {data.npmDownloads.toLocaleString()}
+                        </span>
+                      ) : (
+                        <span className="text-xs text-slate-600">-</span>
+                      )}
+                    </td>
+                    <td className="py-3 pr-4 text-right hidden md:table-cell">
                       {data?.githubStars ? (
                         <span className="text-xs text-slate-300 font-mono">
                           ⭐ {data.githubStars.toLocaleString()}
@@ -161,8 +171,8 @@ export default function Home() {
       </div>
 
       <footer className="mt-10 border-t border-slate-800 pt-6 text-center text-xs text-slate-600">
-        <p>AI增长榜 · 每周一自动更新 · 数据来源：Product Hunt · GitHub · HuggingFace · Chrome Web Store</p>
-        <p className="mt-1">评分规则：PH 票数 25% + PH 评论 10% + GitHub Stars 20% + HF Likes 10% + HF 下载 15% + Chrome 用户 20%</p>
+        <p>AI增长榜 · 每周一自动更新 · 数据来源：Product Hunt · GitHub · HuggingFace · Chrome · npm · Docker Hub</p>
+        <p className="mt-1">评分规则：PH 票数 25% + PH 评论 10% + GitHub Stars 20% + HF Likes 10% + HF 下载 15% + npm 15% + Docker 10% + Chrome 14%</p>
       </footer>
     </div>
   );

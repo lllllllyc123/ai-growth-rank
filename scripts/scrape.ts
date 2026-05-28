@@ -81,7 +81,7 @@ function extract(field) {
 const repos = extract("githubRepo"),
   phSlugs = extract("phSlug"),
   hfModels = extract("huggingfaceModel");
-console.log("Sources: " + repos.length + " GH, " + phSlugs.length + " PH, " + hfModels.length + " HF");
+console.log("Sources: " + repos.length + " GH, " + phSlugs.length + " PH, " + hfModels.length + " HF, " + chromeExts.length + " Chrome");
 
 // GitHub
 async function ghFetch(repo) {
@@ -117,6 +117,28 @@ function loadLast() {
   const files = fs.readdirSync(snapDir).filter(f => f.endsWith(".json")).sort();
   if (files.length === 0) return { entries: {} };
   return JSON.parse(fs.readFileSync(path.join(snapDir, files[files.length - 1]), "utf-8"));
+}
+
+// Chrome Web Store
+async function chromeFetch(extId) {
+  try {
+    // Try Chrome Web Store product page (may work from US-based runners)
+    const html = await httpGet("https://chrome.google.com/webstore/detail/test/" + extId + "?hl=en", {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1)",
+        "Accept": "text/html",
+      },
+    });
+    // Look for embedded user count data
+    const userMatch = html.match(/"userCount"[:s]*(d+)/) || html.match(/"interactionCount"[:s]*"(d+)"/);
+    if (userMatch) return parseInt(userMatch[1]);
+    // Try alternative endpoint
+    const alt = await httpGet("https://clients2.google.com/service/update2/crx?response=redirect&prodversion=9999&acceptformat=crx3&x=id%3D" + extId + "%26uc", {});
+    // Could parse download count from headers
+    return 0;
+  } catch (e) {
+    throw new Error("Chrome fetch failed: " + e.message);
+  }
 }
 
 async function main() {
@@ -161,6 +183,19 @@ async function main() {
     path.join(snapDir, n.getFullYear() + "-" + String(n.getMonth() + 1).padStart(2, "0") + "-" + String(n.getDate()).padStart(2, "0") + ".json"),
     JSON.stringify(ad, null, 2), "utf-8"
   );
+    // Chrome Web Store
+  for (const { slug, val: extId } of chromeExts) {
+    if (!extId || extId === "") continue;
+    try {
+      await sleep(500);
+      const users = await chromeFetch(extId);
+      if (users > 0) {
+        entries[slug] = Object.assign({}, entries[slug], { chromeUsers: users });
+        console.log("  " + slug + ": Chrome " + users.toLocaleString() + " users");
+      }
+    } catch (e) { console.log("  " + slug + ": Chrome fail - " + e.message); }
+  }
+
   console.log("Done. " + Object.keys(entries).length + " tools.");
 }
 main().catch(e => { console.error("FATAL:", e.message); process.exit(1); });

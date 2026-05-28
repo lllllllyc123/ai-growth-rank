@@ -7,6 +7,7 @@ type Entry = {
   phReviews?: number;
   hfLikes?: number;
   hfDownloads?: number;
+  chromeUsers?: number;
 };
 
 type AutoEntries = Record<string, Entry>;
@@ -30,7 +31,7 @@ export function computeAllScores(): Record<string, number> {
   if (slugs.length === 0) return {};
 
   // 收集各维度最大值用于归一化
-  let maxPhVotes = 1, maxPhReviews = 1, maxGhStars = 1, maxHfLikes = 1, maxHfDownloads = 1;
+  let maxPhVotes = 1, maxPhReviews = 1, maxGhStars = 1, maxHfLikes = 1, maxHfDownloads = 1, maxChromeUsers = 1;
   for (const s of slugs) {
     const e = entries[s];
     if (e.phVotes && e.phVotes > maxPhVotes) maxPhVotes = e.phVotes;
@@ -38,17 +39,19 @@ export function computeAllScores(): Record<string, number> {
     if (e.githubStars && e.githubStars > maxGhStars) maxGhStars = e.githubStars;
     if (e.hfLikes && e.hfLikes > maxHfLikes) maxHfLikes = e.hfLikes;
     if (e.hfDownloads && e.hfDownloads > maxHfDownloads) maxHfDownloads = e.hfDownloads;
+    if (e.chromeUsers && e.chromeUsers > maxChromeUsers) maxChromeUsers = e.chromeUsers;
   }
 
   const scores: Record<string, number> = {};
   for (const s of slugs) {
     const e = entries[s];
-    // 产品验证 30% + 社区热度 10% + 开发者关注 25% + 模型影响力 15% + 模型下载量 20%
+    // PH票数 25% + PH评论 10% + GitHub 20% + HF Likes 10% + HF下载 15% + Chrome 20%
     const phVoteScore = normalizeLog(e.phVotes ?? 0, maxPhVotes);
     const phReviewScore = normalizeLog(e.phReviews ?? 0, maxPhReviews);
     const ghScore = normalizeLog(e.githubStars ?? 0, maxGhStars);
     const hfLikeScore = normalizeLog(e.hfLikes ?? 0, maxHfLikes);
     const hfDownloadScore = normalizeLog(e.hfDownloads ?? 0, maxHfDownloads);
+    const chromeScore = normalizeLog(e.chromeUsers ?? 0, maxChromeUsers);
 
     scores[s] = Math.round(
       phVoteScore * 0.30 +

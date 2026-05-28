@@ -84,6 +84,7 @@ export default function Home() {
               <th className="py-3 pr-4 text-right">热度分</th>
               <th className="py-3 pr-4 text-right">PH 票数</th>
               <th className="py-3 pr-4 text-right hidden md:table-cell">GitHub</th>
+              <th className="py-3 pr-4 text-right hidden lg:table-cell">Chrome</th>
               <th className="py-3 pr-4 hidden lg:table-cell">定价</th>
             </tr>
           </thead>
@@ -160,8 +161,8 @@ export default function Home() {
       </div>
 
       <footer className="mt-10 border-t border-slate-800 pt-6 text-center text-xs text-slate-600">
-        <p>AI增长榜 · 每周一自动更新 · 数据来源：Product Hunt · GitHub · HuggingFace</p>
-        <p className="mt-1">评分规则：PH 票数 30% + PH 评论 10% + GitHub Stars 25% + HF Likes 15% + HF 下载 20%</p>
+        <p>AI增长榜 · 每周一自动更新 · 数据来源：Product Hunt · GitHub · HuggingFace · Chrome Web Store</p>
+        <p className="mt-1">评分规则：PH 票数 30% + PH 评论 10% + GitHub Stars 25% + HF Likes 15% + HF 下载 15% + Chrome 用户 20%</p>
       </footer>
     </div>
   );

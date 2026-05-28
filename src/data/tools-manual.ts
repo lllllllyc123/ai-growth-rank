@@ -366,6 +366,7 @@ export const manualEntries: AITool[] = [
     "userRating": 4.8,
     "githubStars": 0,
     "githubRepo": "deepseek-ai/DeepSeek-V3",
+    "huggingfaceModel": "deepseek-ai/DeepSeek-V3",
     "redditSubreddit": "DeepSeek",
     "pricing": "free",
     "foundedAt": "2023-07-17",

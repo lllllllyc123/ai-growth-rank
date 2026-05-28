@@ -30,20 +30,22 @@ function formatVisits(n: number): string {
   return String(n);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function getAutoEntry(slug: string): any {
+  return (autoData as any).entries?.[slug];
+}
+
 export default async function ToolPage({ params }: Props) {
   const { slug } = await params;
   const tool = tools.find((t) => t.slug === slug);
   if (!tool) notFound();
 
-  const entry = (autoData as Record<string, unknown>).entries as Record<string, {
-    githubStars?: number;
-    phVotes?: number;
-    phReviews?: number;
-    hfLikes?: number;
-  }> | undefined;
-  const auto = entry?.[slug];
-
-  const hasAutoData = !!(auto?.githubStars || auto?.phVotes || auto?.hfLikes);
+  const auto = getAutoEntry(slug);
+  const ghStars: number | undefined = auto?.githubStars;
+  const phVotes: number | undefined = auto?.phVotes;
+  const phReviews: number | undefined = auto?.phReviews;
+  const hfLikes: number | undefined = auto?.hfLikes;
+  const hasAutoData = !!(ghStars || phVotes !== undefined || hfLikes);
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-8">
@@ -122,11 +124,11 @@ export default async function ToolPage({ params }: Props) {
           <section>
             <h2 className="mb-3 text-sm font-semibold text-slate-300">社区数据（自动抓取）</h2>
             <div className="rounded-xl border border-slate-800 bg-slate-900/50 p-4 space-y-2">
-              {auto?.githubStars && (
+              {ghStars && (
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-slate-400">⭐ GitHub Stars</span>
                   <span className="text-slate-200 font-mono">
-                    {auto.githubStars.toLocaleString()}
+                    {ghStars.toLocaleString()}
                     {tool.githubRepo && (
                       <a
                         href={`https://github.com/${tool.githubRepo}`}
@@ -140,14 +142,14 @@ export default async function ToolPage({ params }: Props) {
                   </span>
                 </div>
               )}
-              {auto?.phVotes !== undefined && (
+              {phVotes !== undefined && (
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-slate-400">🏆 Product Hunt</span>
                   <span className="text-slate-200 font-mono">
-                    {auto.phVotes.toLocaleString()} 票
-                    {auto.phReviews !== undefined && (
+                    {phVotes.toLocaleString()} 票
+                    {phReviews !== undefined && (
                       <span className="ml-1 text-xs text-slate-500">
-                        · {auto.phReviews} 评论
+                        · {phReviews} 评论
                       </span>
                     )}
                     {tool.phSlug && (
@@ -163,11 +165,11 @@ export default async function ToolPage({ params }: Props) {
                   </span>
                 </div>
               )}
-              {auto?.hfLikes && (
+              {hfLikes && (
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-slate-400">🤗 HuggingFace Likes</span>
                   <span className="text-slate-200 font-mono">
-                    {auto.hfLikes.toLocaleString()}
+                    {hfLikes.toLocaleString()}
                     {tool.huggingfaceModel && (
                       <a
                         href={`https://huggingface.co/${tool.huggingfaceModel}`}
@@ -181,16 +183,6 @@ export default async function ToolPage({ params }: Props) {
                   </span>
                 </div>
               )}
-            </div>
-          </section>
-        )}
-
-        {/* Legacy GitHub section - keep for tools without auto-data */}
-        {!auto?.githubStars && tool.githubStars && (
-          <section>
-            <h2 className="mb-3 text-sm font-semibold text-slate-300">GitHub</h2>
-            <div className="rounded-xl border border-slate-800 bg-slate-900/50 p-4">
-              <span className="text-slate-400 text-sm">⭐ {tool.githubStars.toLocaleString()} Stars</span>
             </div>
           </section>
         )}

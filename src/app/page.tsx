@@ -159,6 +159,15 @@ export default function Home() {
                         <span className="text-xs text-slate-600">-</span>
                       )}
                     </td>
+                    <td className="py-3 pr-4 text-right hidden lg:table-cell">
+                      {data?.chromeUsers ? (
+                        <span className="text-xs text-slate-300 font-mono">
+                          👥 {data.chromeUsers.toLocaleString()}
+                        </span>
+                      ) : (
+                        <span className="text-xs text-slate-600">-</span>
+                      )}
+                    </td>
                     <td className="py-3 pr-4 hidden lg:table-cell">
                       <span className="text-xs text-slate-400">{PRICING_LABELS[tool.pricing]}</span>
                     </td>

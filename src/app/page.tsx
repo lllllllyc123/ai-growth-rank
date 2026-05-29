@@ -159,6 +159,15 @@ export default function Home() {
                         <span className="text-xs text-slate-600">-</span>
                       )}
                     </td>
+                    <td className="py-3 pr-4 text-right hidden lg:table-cell">
+                      {data?.chromeUsers ? (
+                        <span className="text-xs text-slate-300 font-mono">
+                          👥 {data.chromeUsers.toLocaleString()}
+                        </span>
+                      ) : (
+                        <span className="text-xs text-slate-600">-</span>
+                      )}
+                    </td>
                     <td className="py-3 pr-4 hidden lg:table-cell">
                       <span className="text-xs text-slate-400">{PRICING_LABELS[tool.pricing]}</span>
                     </td>
@@ -172,7 +181,7 @@ export default function Home() {
 
       <footer className="mt-10 border-t border-slate-800 pt-6 text-center text-xs text-slate-600">
         <p>AI增长榜 · 每周一自动更新 · 数据来源：Product Hunt · GitHub · HuggingFace · Chrome · npm · Docker Hub</p>
-        <p className="mt-1">评分规则：PH 票数 25% + PH 评论 10% + GitHub Stars 20% + HF Likes 10% + HF 下载 15% + npm 15% + Docker 10% + Chrome 14%</p>
+        <p className="mt-1">评分规则：PH 票数 20% + PH 评论 8% + GitHub Stars 15% + HF Likes 8% + HF 下载 10% + npm 15% + Docker 10% + Chrome 14%</p>
       </footer>
     </div>
   );

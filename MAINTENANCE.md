@@ -1,143 +1,128 @@
-# AI 增长榜 · 数据更新维护手册
+# AI 增长榜 · 维护手册
 
-> 每周一更新，5 分钟完成。自动抓取 + 手动查询 + 自动计算。
-
----
-
-## 一、自动化部分（无需操作）
-
-每周一 UTC 08:00，GitHub Actions 自动运行 `scripts/scrape.ts`，抓取以下数据并存入 `src/data/auto-data.json`：
-
-| 数据 | 来源 | 覆盖率 |
-|---|---|---|
-| GitHub Stars + 增长率 | GitHub API | 3/20（bolt-new、deepseek、dify） |
-| Product Hunt Votes + Reviews | PH API v2 | 17/20 |
-| HuggingFace Likes | HF API | 1/20（deepseek） |
-
-> 可在 <https://github.com/lllllllyc123/ai-growth-rank/actions> 查看运行状态。
+> 全自动评分系统 v2.0 · 8 个数据维度 · 每周自动更新
 
 ---
 
-## 二、手动部分（每周一，5 分钟）
+## 一、自动部分（每周一 UTC 00:00）
 
-### 2.1 查询月访问量
+GitHub Actions 自动运行，抓取并更新 `src/data/auto-data.json`：
 
-1. 打开 <https://www.similarweb.com>
-2. 搜索框输入工具域名，查看 **Total Visits**（月访问量）
-3. 填入 `src/data/tools-manual.ts` 中对应工具的 `monthlyVisits`
+| 维度 | 来源 | API | 覆盖 |
+|------|------|-----|------|
+| GitHub Stars | `api.github.com` | 免费 | 8/20 |
+| Product Hunt 票数 | PH API v2 GraphQL | 需 Token | 19/20 |
+| Product Hunt 评论 | 同上 | 同上 | 14/20 |
+| HuggingFace Likes | `huggingface.co/api` | 免费 | 5/20 |
+| HuggingFace 下载 | 同上 | 同上 | 5/20 |
+| npm 周下载 | `api.npmjs.org` | 免费 | 12/20 |
+| Docker 拉取 | `hub.docker.com` | 免费（有时连不上） | 0/20 |
+| Chrome 扩展用户 | 不支持自动抓取 | — | 手动 |
 
-| 工具 | 域名 | 查什么 |
-|---|---|---|
-| ChatGPT | chat.openai.com | 月访问量 |
-| Claude | claude.ai | 月访问量 |
-| Gemini | gemini.google.com | 月访问量 |
-| Midjourney | midjourney.com | 月访问量 |
-| Cursor | cursor.sh | 月访问量 |
-| GitHub Copilot | github.com/features/copilot | 月访问量 |
-| Perplexity | perplexity.ai | 月访问量 |
-| Runway | runway.ml | 月访问量 |
-| Sora | openai.com/sora | 月访问量 |
-| Suno | suno.ai | 月访问量 |
-| Notion AI | notion.so | 月访问量 |
-| Lovable | lovable.dev | 月访问量 |
-| Bolt.new | bolt.new | 月访问量 |
-| DeepSeek | chat.deepseek.com | 月访问量 |
-| Kimi | kimi.moonshot.cn | 月访问量 |
-| Gamma | gamma.app | 月访问量 |
-| ElevenLabs | elevenlabs.io | 月访问量 |
-| v0 by Vercel | v0.dev | 月访问量 |
-| Dify | dify.ai | 月访问量 |
-| Coze | coze.com | 月访问量 |
-
-### 2.2 计算月增长
+**评分公式**（`src/data/score.ts`）：
 
 ```
-visitGrowth = (本月 monthlyVisits - 上月 monthlyVisits) / 上月 monthlyVisits × 100
+PH 票数 20% + PH 评论 8% + GitHub 15% + HF Likes 8%
++ HF 下载 10% + npm 15% + Docker 10% + Chrome 14%
+= 100%
 ```
 
-### 2.3 微调创新度评分（可选）
-
-`innovationScore` 是主观评分（0-100），根据：
-- 是否有重大版本更新
-- 是否推出突破性功能
-- 是否引领行业趋势
-
-### 2.4 示例：改 ChatGPT 数据
-
-```ts
-// 打开 src/data/tools-manual.ts，找到 chatgpt：
-{
-  slug: "chatgpt",
-  // ...
-  monthlyVisits: 4200000000,   // ← 改：从 SimilarWeb 查
-  visitGrowth: 8.5,            // ← 改：算环比
-  userRating: 4.8,             // ← 改：综合 PH/G2 评分
-  growthScore: 88,             // ← 改：增长速度评分
-  feedbackScore: 96,           // ← 改：用户反馈评分（可参考 PH Votes）
-  innovationScore: 92,         // ← 改：创新度评分（可选）
-  totalScore: 91.6,            // ← 系统自动算
-  trend: "up",                 // ← 改：up / down / stable
-  rankChange: 0,               // ← 改：正数上升，负数下降
-}
-```
+自适应归一化：工具只有部分维度数据时，权重按比例放大（最小地板 50%）。
 
 ---
 
-## 三、系统自动计算
+## 二、手动部分（每周一，2 分钟）
 
-以下字段**不需要手动填**，推送到 GitHub 后 Actions 会自动计算：
+### 2.1 更新 Chrome 扩展用户数（唯一必须手动）
 
-| 字段 | 计算公式 |
-|---|---|
-| `totalScore` | `growthScore × 0.4 + feedbackScore × 0.3 + innovationScore × 0.3` |
+Chrome Web Store 不支持自动抓取。每 1-2 周检查一次这 5 个扩展的用户数：
 
-> 注意：`totalScore` 目前在 `tools-manual.ts` 中手写。未来版本会改为脚本自动计算，届时只需更新子评分即可。
+| 工具 | 链接 |
+|------|------|
+| ChatGPT | <https://chromewebstore.google.com/detail/test/iimdmhmbedafhnjdccafpegfkadhkpoj> |
+| Claude | <https://chromewebstore.google.com/detail/test/fcoeoabgfenejglbffodgkkbkcdhcgfn> |
+| GitHub Copilot | <https://chromewebstore.google.com/detail/test/fpnodhlacbkbgnblhkcbjdlijfdppilo> |
+| Perplexity | <https://chromewebstore.google.com/detail/test/bnaffjbjpgiagpondjlnneblepbdchol> |
+| Notion | <https://chromewebstore.google.com/detail/test/knheggckgoiihginacbkhaalnibhilkk> |
+
+打开每个链接 → 记下"用户数"→ 直接改 `src/data/auto-data.json`：
+
+```json
+"chatgpt": { "chromeUsers": 20000 },
+"claude": { "chromeUsers": 8000000 },
+```
+
+### 2.2 添加新工具
+
+1. 在 `src/data/tools-manual.ts` 新增条目（仿照已有格式）
+2. 确保填了 `phSlug`、`githubRepo`（如有）、`npmPackage`（如有）、`chromeExtensionId`（如有）
+3. 推送 → Actions 自动抓取数据
+4. 如果是 npm/Chrome 维度，手动补充到 `auto-data.json`
+
+### 2.3 修数据源映射
+
+如果某个工具的 PH 票数太低（可能是错的 slug），在 `tools-manual.ts` 中改 `phSlug`，再触发 Actions 重抓。
 
 ---
 
-## 四、验证与发布
+## 三、数据流
 
-### 4.1 本地验证
+```
+tools-manual.ts (映射)
+    ↓
+scrape.ts (抓取)
+    ↓
+auto-data.json (数据)
+    ↓
+score.ts (评分)
+    ↓
+page.tsx (展示)
+```
+
+**重要**：scraper 现在是**合并模式**，不会覆盖手动填的 npm/Chrome 数据。每次 Actions 运行只更新它自己能抓到的维度。
+
+---
+
+## 四、命令速查
 
 ```bash
-cd ai-growth-rank
+# 本地运行 scraper（需 PH Token）
+$env:PRODUCT_HUNT_TOKEN="xxx"; npx tsx scripts/scrape.ts
+
+# 本地构建
 npm run build
+
+# 手动触发 Actions
+# 打开 https://github.com/lllllllyc123/ai-growth-rank/actions
+# → Update Data → Run workflow
+
+# 推送到 GitHub（如果 git push 超时，用 GitHub API 推）
 ```
-
-确保无报错。
-
-### 4.2 推送到 GitHub
-
-```bash
-git add src/data/tools-manual.ts
-git commit -m "data: weekly update"
-git push origin main
-```
-
-### 4.3 查看线上效果
-
-Vercel 自动部署完成后刷新：
-
-- 预览地址：<https://ai-growth-rank-git-main-lllllllyc123s-projects.vercel.app>
 
 ---
 
-## 五、更新频率对照
-
-| 频率 | 做什么 | 花多久 |
-|---|---|---|
-| 每周一 | 查月访问量 + 改 tools-manual.ts + push | 5 分钟 |
-| 每月初 | 回顾趋势，微调 innovationScore | 2 分钟 |
-| 有新产品上线 | 按 README 格式新增工具条目 | 3 分钟 |
-
----
-
-## 六、文件索引
+## 五、文件索引
 
 | 文件 | 作用 |
-|---|---|
-| `src/data/tools-manual.ts` | 手动维护：评分、访问量、描述、分类 |
-| `src/data/auto-data.json` | 自动抓取：GitHub Stars、PH Votes、HF Likes |
-| `src/data/types.ts` | 数据类型定义 |
+|------|------|
+| `src/data/tools-manual.ts` | 工具定义 + 数据源映射（phSlug, githubRepo, npmPackage 等） |
+| `src/data/auto-data.json` | 自动抓取的数据（GitHub Stars, PH 票数, HF, npm, Chrome） |
+| `src/data/score.ts` | 评分引擎（8 维度加权 + 自适应归一化） |
+| `src/data/types.ts` | 类型定义 |
 | `scripts/scrape.ts` | 数据抓取脚本 |
-| `.github/workflows/update-data.yml` | CI 定时任务 |
+| `.github/workflows/update-data.yml` | 每周自动更新 CI |
+| `src/app/page.tsx` | 首页榜单 |
+| `src/app/tool/[slug]/page.tsx` | 工具详情页 |
+
+---
+
+## 六、故障排查
+
+| 问题 | 解决 |
+|------|------|
+| Actions 报错 | 打开 Actions 日志看具体错误 |
+| PH API 返回 null | PH slug 可能错了，在 tools-manual.ts 改 slug |
+| npm 数据为空 | 检查 npmPackage 是否正确，scraper 已自动抓取 npm |
+| 评分不合理 | 检查 auto-data.json 数据是否完整，权重在 score.ts 调整 |
+| Vercel 部署报错 | 检查 `vercel.json` 是否有效 JSON |
+| 生产域名还是旧版 | Vercel Dashboard → Deployments → Promote to Production |

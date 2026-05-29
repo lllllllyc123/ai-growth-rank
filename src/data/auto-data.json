@@ -1,23 +1,28 @@
 {
-  "syncedAt": "2026-05-29T03:11:27.937Z",
+  "syncedAt": "2026-05-29T03:14:58.201Z",
   "entries": {
     "chatgpt": {
       "githubStars": 10938,
       "githubStarGrowth": 0,
       "phVotes": 1638,
-      "phReviews": 669
+      "phReviews": 669,
+      "npmDownloads": 22620668,
+      "chromeUsers": 20000
     },
     "claude": {
       "githubStars": 3546,
       "githubStarGrowth": 0,
       "phVotes": 255,
-      "phReviews": 812
+      "phReviews": 812,
+      "npmDownloads": 20832235,
+      "chromeUsers": 8000000
     },
     "suno": {
       "githubStars": 39145,
       "githubStarGrowth": 0,
       "phVotes": 8,
-      "phReviews": 16
+      "phReviews": 16,
+      "npmDownloads": 7
     },
     "bolt-new": {
       "githubStars": 16389,
@@ -35,25 +40,29 @@
     },
     "vercel-v0": {
       "githubStars": 24533,
-      "githubStarGrowth": 0
+      "githubStarGrowth": 0,
+      "npmDownloads": 11
     },
     "dify": {
       "githubStars": 143023,
       "githubStarGrowth": 0.03986961935005526,
       "phVotes": 250,
-      "phReviews": 6
+      "phReviews": 6,
+      "npmDownloads": 1359
     },
     "coze": {
       "githubStars": 280,
       "githubStarGrowth": 0,
       "phVotes": 346,
-      "phReviews": 7
+      "phReviews": 7,
+      "npmDownloads": 3358
     },
     "gemini": {
       "phVotes": 73,
       "phReviews": 0,
       "hfLikes": 3335,
-      "hfDownloads": 101563
+      "hfDownloads": 101563,
+      "npmDownloads": 2967603
     },
     "midjourney": {
       "phVotes": 439,
@@ -65,15 +74,18 @@
     },
     "github-copilot": {
       "phVotes": 146,
-      "phReviews": 26
+      "phReviews": 26,
+      "chromeUsers": 4000
     },
     "perplexity": {
       "phVotes": 236,
-      "phReviews": 92
+      "phReviews": 92,
+      "chromeUsers": 200000
     },
     "runway": {
       "phVotes": 103,
-      "phReviews": 0
+      "phReviews": 0,
+      "npmDownloads": 29166
     },
     "sora": {
       "phVotes": 2,
@@ -81,11 +93,14 @@
     },
     "notion-ai": {
       "phVotes": 4,
-      "phReviews": 1
+      "phReviews": 1,
+      "npmDownloads": 4028527,
+      "chromeUsers": 1000000
     },
     "lovable": {
       "phVotes": 1497,
-      "phReviews": 184
+      "phReviews": 184,
+      "npmDownloads": 67
     },
     "kimi": {
       "phVotes": 151,
@@ -93,11 +108,13 @@
     },
     "gamma": {
       "phVotes": 1129,
-      "phReviews": 78
+      "phReviews": 78,
+      "npmDownloads": 48871
     },
     "elevenlabs": {
       "phVotes": 97,
-      "phReviews": 177
+      "phReviews": 177,
+      "npmDownloads": 189569
     }
   }
 }

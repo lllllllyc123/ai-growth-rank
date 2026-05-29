@@ -148,7 +148,8 @@ async function dockerFetch(image) {
 }
 
 async function main() {
-  const entries = {}, last = loadLast();
+  const existing = (() => { try { return JSON.parse(fs.readFileSync(autoPath, "utf-8")).entries || {}; } catch(e) { return {}; } })();
+  const entries = Object.assign({}, existing), last = loadLast();
 
   // GitHub Stars
   for (const { slug, val: repo } of repos) {

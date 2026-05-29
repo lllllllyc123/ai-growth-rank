@@ -1,38 +1,63 @@
 {
-  "syncedAt": "2026-05-29T03:46:31.912Z",
+  "syncedAt": "2026-05-29T03:14:58.201Z",
   "entries": {
-    "bolt-new": {
-      "githubStars": 16390,
+    "chatgpt": {
+      "githubStars": 10938,
       "githubStarGrowth": 0,
+      "phVotes": 1638,
+      "phReviews": 669,
+      "npmDownloads": 22620668,
+      "chromeUsers": 20000
+    },
+    "claude": {
+      "githubStars": 3546,
+      "githubStarGrowth": 0,
+      "phVotes": 255,
+      "phReviews": 812,
+      "npmDownloads": 20832235,
+      "chromeUsers": 8000000
+    },
+    "suno": {
+      "githubStars": 39145,
+      "githubStarGrowth": 0,
+      "phVotes": 8,
+      "phReviews": 16,
+      "npmDownloads": 7,
+      "hfLikes": 1529,
+      "hfDownloads": 17505
+    },
+    "bolt-new": {
+      "githubStars": 16389,
+      "githubStarGrowth": -0.006101281269066504,
       "phVotes": 1250,
       "phReviews": 43
     },
     "deepseek": {
-      "githubStars": 103638,
-      "githubStarGrowth": -0.0009648877353119964,
+      "githubStars": 103642,
+      "githubStarGrowth": 0.003859588181940987,
       "phVotes": 11,
       "phReviews": 0,
       "hfLikes": 4077,
       "hfDownloads": 1130915
     },
+    "vercel-v0": {
+      "githubStars": 24533,
+      "githubStarGrowth": 0,
+      "npmDownloads": 11
+    },
     "dify": {
-      "githubStars": 142966,
-      "githubStarGrowth": 0.0020984450522163077,
+      "githubStars": 143023,
+      "githubStarGrowth": 0.03986961935005526,
       "phVotes": 250,
       "phReviews": 6,
       "npmDownloads": 1359
     },
-    "chatgpt": {
-      "phVotes": 1636,
-      "phReviews": 669,
-      "chromeUsers": 20000,
-      "npmDownloads": 22620668
-    },
-    "claude": {
-      "phVotes": 255,
-      "phReviews": 812,
-      "chromeUsers": 8000000,
-      "npmDownloads": 20832235
+    "coze": {
+      "githubStars": 280,
+      "githubStarGrowth": 0,
+      "phVotes": 346,
+      "phReviews": 7,
+      "npmDownloads": 3358
     },
     "gemini": {
       "phVotes": 73,
@@ -62,29 +87,20 @@
     "runway": {
       "phVotes": 103,
       "phReviews": 0,
-      "npmDownloads": 29166,
-      "hfLikes": 1128,
-      "hfDownloads": 1756501
+      "npmDownloads": 29166
     },
     "sora": {
       "phVotes": 2,
       "phReviews": 0
     },
-    "suno": {
-      "phVotes": 8,
-      "phReviews": 16,
-      "hfLikes": 1529,
-      "hfDownloads": 17505,
-      "npmDownloads": 7
-    },
     "notion-ai": {
       "phVotes": 4,
       "phReviews": 1,
-      "chromeUsers": 1000000,
-      "npmDownloads": 4028527
+      "npmDownloads": 4028527,
+      "chromeUsers": 1000000
     },
     "lovable": {
-      "phVotes": 1493,
+      "phVotes": 1497,
       "phReviews": 184,
       "npmDownloads": 67
     },
@@ -95,7 +111,7 @@
       "hfDownloads": 1450413
     },
     "gamma": {
-      "phVotes": 1125,
+      "phVotes": 1129,
       "phReviews": 78,
       "npmDownloads": 48871
     },
@@ -103,14 +119,6 @@
       "phVotes": 97,
       "phReviews": 177,
       "npmDownloads": 189569
-    },
-    "coze": {
-      "phVotes": 346,
-      "phReviews": 7,
-      "npmDownloads": 3358
-    },
-    "vercel-v0": {
-      "npmDownloads": 11
     }
   }
 }

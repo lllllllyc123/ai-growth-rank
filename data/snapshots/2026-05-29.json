@@ -1,33 +1,53 @@
 {
-  "syncedAt": "2026-05-28T09:40:15.571Z",
+  "syncedAt": "2026-05-29T03:11:27.937Z",
   "entries": {
-    "bolt-new": {
-      "githubStars": 16390,
+    "chatgpt": {
+      "githubStars": 10938,
       "githubStarGrowth": 0,
+      "phVotes": 1638,
+      "phReviews": 669
+    },
+    "claude": {
+      "githubStars": 3546,
+      "githubStarGrowth": 0,
+      "phVotes": 255,
+      "phReviews": 812
+    },
+    "suno": {
+      "githubStars": 39145,
+      "githubStarGrowth": 0,
+      "phVotes": 8,
+      "phReviews": 16
+    },
+    "bolt-new": {
+      "githubStars": 16389,
+      "githubStarGrowth": -0.006101281269066504,
       "phVotes": 1250,
       "phReviews": 43
     },
     "deepseek": {
-      "githubStars": 103638,
-      "githubStarGrowth": 0,
+      "githubStars": 103642,
+      "githubStarGrowth": 0.003859588181940987,
       "phVotes": 11,
       "phReviews": 0,
       "hfLikes": 4077,
       "hfDownloads": 1130915
     },
+    "vercel-v0": {
+      "githubStars": 24533,
+      "githubStarGrowth": 0
+    },
     "dify": {
-      "githubStars": 142966,
-      "githubStarGrowth": 0,
+      "githubStars": 143023,
+      "githubStarGrowth": 0.03986961935005526,
       "phVotes": 250,
       "phReviews": 6
     },
-    "chatgpt": {
-      "phVotes": 1636,
-      "phReviews": 669
-    },
-    "claude": {
-      "phVotes": 255,
-      "phReviews": 812
+    "coze": {
+      "githubStars": 280,
+      "githubStarGrowth": 0,
+      "phVotes": 346,
+      "phReviews": 7
     },
     "gemini": {
       "phVotes": 73,
@@ -59,16 +79,12 @@
       "phVotes": 2,
       "phReviews": 0
     },
-    "suno": {
-      "phVotes": 8,
-      "phReviews": 16
-    },
     "notion-ai": {
       "phVotes": 4,
       "phReviews": 1
     },
     "lovable": {
-      "phVotes": 1493,
+      "phVotes": 1497,
       "phReviews": 184
     },
     "kimi": {
@@ -76,16 +92,12 @@
       "phReviews": 2
     },
     "gamma": {
-      "phVotes": 1125,
+      "phVotes": 1129,
       "phReviews": 78
     },
     "elevenlabs": {
       "phVotes": 97,
       "phReviews": 177
-    },
-    "coze": {
-      "phVotes": 346,
-      "phReviews": 7
     }
   }
 }

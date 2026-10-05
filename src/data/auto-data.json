@@ -1,73 +1,73 @@
 {
-  "syncedAt": "2026-09-28T02:45:04.262Z",
+  "syncedAt": "2026-10-05T03:12:54.460Z",
   "entries": {
     "chatgpt": {
-      "githubStars": 11192,
-      "githubStarGrowth": 0.08942944017170452,
-      "phVotes": 1645,
-      "phReviews": 736,
+      "githubStars": 11201,
+      "githubStarGrowth": 0.08041458184417441,
+      "phVotes": 1641,
+      "phReviews": 743,
       "npmDownloads": 22620668,
       "chromeUsers": 20000
     },
     "claude": {
-      "githubStars": 3924,
-      "githubStarGrowth": 0.38372985418265537,
+      "githubStars": 3949,
+      "githubStarGrowth": 0.63710499490316,
       "phVotes": 247,
-      "phReviews": 1005,
+      "phReviews": 1020,
       "npmDownloads": 20832235,
       "chromeUsers": 8000000
     },
     "suno": {
       "githubStars": 39271,
-      "githubStarGrowth": -0.0025463434508046444,
+      "githubStarGrowth": 0,
       "phVotes": 8,
       "phReviews": 19,
       "npmDownloads": 7,
       "hfLikes": 1566,
-      "hfDownloads": 27272
+      "hfDownloads": 26480
     },
     "bolt-new": {
-      "githubStars": 16568,
-      "githubStarGrowth": 0.0724812756704518,
+      "githubStars": 16574,
+      "githubStarGrowth": 0.036214389183969097,
       "phVotes": 1217,
-      "phReviews": 46
+      "phReviews": 47
     },
     "deepseek": {
-      "githubStars": 104499,
-      "githubStarGrowth": 0.02680169616448584,
+      "githubStars": 104516,
+      "githubStarGrowth": 0.01626809825931349,
       "phVotes": 11,
       "phReviews": 0,
-      "hfLikes": 4305,
-      "hfDownloads": 1163331
+      "hfLikes": 4401,
+      "hfDownloads": 1353839
     },
     "vercel-v0": {
-      "githubStars": 26996,
-      "githubStarGrowth": 0.4876233016936534,
+      "githubStars": 27125,
+      "githubStarGrowth": 0.477848570158542,
       "npmDownloads": 11
     },
     "dify": {
-      "githubStars": 157353,
-      "githubStarGrowth": 0.45069487446296447,
-      "phVotes": 261,
+      "githubStars": 157854,
+      "githubStarGrowth": 0.3183924043392881,
+      "phVotes": 252,
       "phReviews": 7,
       "npmDownloads": 1359
     },
     "coze": {
-      "githubStars": 292,
-      "githubStarGrowth": 0,
-      "phVotes": 338,
+      "githubStars": 293,
+      "githubStarGrowth": 0.3424657534246575,
+      "phVotes": 337,
       "phReviews": 7,
       "npmDownloads": 3358
     },
     "gemini": {
       "phVotes": 73,
       "phReviews": 0,
-      "hfLikes": 3445,
-      "hfDownloads": 21679,
+      "hfLikes": 3452,
+      "hfDownloads": 17019,
       "npmDownloads": 2967603
     },
     "midjourney": {
-      "phVotes": 425,
+      "phVotes": 426,
       "phReviews": 81
     },
     "cursor": {
@@ -100,24 +100,24 @@
       "chromeUsers": 1000000
     },
     "lovable": {
-      "phVotes": 1473,
-      "phReviews": 208,
+      "phVotes": 1468,
+      "phReviews": 209,
       "npmDownloads": 67
     },
     "kimi": {
       "phVotes": 151,
-      "phReviews": 10,
-      "hfLikes": 2877,
-      "hfDownloads": 317440
+      "phReviews": 12,
+      "hfLikes": 2878,
+      "hfDownloads": 319006
     },
     "gamma": {
-      "phVotes": 1167,
+      "phVotes": 1165,
       "phReviews": 78,
       "npmDownloads": 48871
     },
     "elevenlabs": {
       "phVotes": 94,
-      "phReviews": 210,
+      "phReviews": 212,
       "npmDownloads": 189569
     }
   }
